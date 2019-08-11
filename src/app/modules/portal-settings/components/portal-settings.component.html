@@ -1,0 +1,948 @@
+<!-- start div of page-container -->
+<div class="page-container">
+    <div>
+        <ol class="breadcrumb breadcrumb-custom">
+            <li class="breadcrumb-item">
+                <a href="#/home">
+                    <i class="fa fa-home"></i> Home </a>
+            </li>
+            <li class="breadcrumb-item active">{{ title }}</li>
+        </ol>
+    </div>
+    <!-- <div class="title-style">
+        <h1 class="title-style">{{ title }}</h1>
+    </div> -->
+
+    <!--start div for tab-->
+    <div>
+
+        <!-- Tab links -->
+        <div class="tab">
+            <button class="tablinks" [class.tab-button-active]="tabHideShow.companyDetTab" [style.background]="tabHideShow.companyDetTab ? 'lightgray' : 'none'"
+                (click)="onClickTab( 'companyDetTab')">Company Details</button>
+            <button class="tablinks" [class.tab-button-active]="tabHideShow.emailDetTab" [style.background]="tabHideShow.emailDetTab ? 'lightgray' : 'none'"
+                (click)="onClickTab( 'emailDetTab')">Email Details</button>
+            <button class="tablinks" [class.tab-button-active]="tabHideShow.ftpServerTab" [style.background]="tabHideShow.ftpServerTab ? 'lightgray' : 'none'"
+                (click)="onClickTab( 'ftpServerTab')">FTP Server Details</button>
+            <button class="tablinks" [class.tab-button-active]="tabHideShow.imageProcessingTab" [style.background]="tabHideShow.imageProcessingTab ? 'lightgray' : 'none'"
+                (click)="onClickTab( 'imageProcessingTab')">Image Processing Details</button>
+            <button class="tablinks" [class.tab-button-active]="tabHideShow.applicationDetTab" [style.background]="tabHideShow.applicationDetTab ? 'lightgray' : 'none'"
+                (click)="onClickTab( 'applicationDetTab')">Application Server Details</button>
+            <button class="tablinks" [class.tab-button-active]="tabHideShow.sapTab" [style.background]="tabHideShow.sapTab ? 'lightgray' : 'none'"
+                (click)="onClickTab( 'sapTab')">SAP Details</button>
+        </div>
+
+        <!-- Tab content -->
+        <!-- start div for companyDetTab -->
+        <div class="tabcontent" [style.display]="tabHideShow.companyDetTab ? 'block':  'none'">
+            <!-- start form tag for company details -->
+            <form [formGroup]="companyDetailsFormGroup" autocomplete="off">
+                <!-- start div form-style -->
+                <div class="row form-style">
+                    <!--start div for companyName-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Company Name</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.companyName" [value]="companyDetail.companyName"
+                            formControlName="companyName" required>
+                        <!--start companyName validation div-->
+                        <div class="alert alert-danger" *ngIf="companyDetailsFormGroup.get('companyName').hasError('required') && companyDetailsFormGroup.get('companyName').touched">
+                            <i class="fa fa-exclamation-circle"></i> Company Name is required!
+                        </div>
+                        <!--end of companyName validation div-->
+                    </div>
+                    <!--end of div for companyName-->
+                    <!--start div for address1-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Address 1</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.address1" [value]="companyDetail.address1"
+                            formControlName="address1" required>
+                        <!--start address1 validation div-->
+                        <div class="alert alert-danger" *ngIf="companyDetailsFormGroup.get('address1').hasError('required') && companyDetailsFormGroup.get('address1').touched">
+                            <i class="fa fa-exclamation-circle"></i> Address1 is required!
+                        </div>
+                        <!--end of address1 validation div-->
+                    </div>
+                    <!--end of div for address1-->
+                    <!--start div for address2-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Address 2</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.address2" [value]="companyDetail.address2"
+                            formControlName="address2" required>
+                    </div>
+                    <!--end of div for address2-->
+                    <!--start div for pin-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Pin</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.pin" [value]="companyDetail.pin"
+                            formControlName="pin" required>
+                        <!--start pin validation div-->
+                        <div class="alert alert-danger" *ngIf="companyDetailsFormGroup.get('pin').hasError('required') && companyDetailsFormGroup.get('pin').touched">
+                            <i class="fa fa-exclamation-circle"></i> Pin is required!
+                        </div>
+                        <!--end of pin validation div-->
+                    </div>
+                    <!--end of div for pin-->
+                    <!--start div for phoneStdCode-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Std Code</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.phoneStdCode" [value]="companyDetail.phoneStdCode"
+                            formControlName="phoneStdCode" required>
+                        <!--start phoneStdCode validation div-->
+                        <div class="alert alert-danger" *ngIf="companyDetailsFormGroup.get('phoneStdCode').hasError('required') && companyDetailsFormGroup.get('phoneStdCode').touched">
+                            <i class="fa fa-exclamation-circle"></i> Std Code is required!
+                        </div>
+                        <!--end of phoneStdCode validation div-->
+                    </div>
+                    <!--end of div for phoneStdCode-->
+                    <!--start div for phoneNo-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Phone no</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.phoneNo" [value]="companyDetail.phoneNo"
+                            formControlName="phoneNo" required>
+                        <!--start phoneNo validation div-->
+                        <div class="alert alert-danger" *ngIf="companyDetailsFormGroup.get('phoneNo').hasError('required') && companyDetailsFormGroup.get('phoneNo').touched">
+                            <i class="fa fa-exclamation-circle"></i> Phone no is required!
+                        </div>
+                        <!--end of phoneNo validation div-->
+                    </div>
+                    <!--end of div for phoneNo-->
+                    <!--start div for website-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Website</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.website" [value]="companyDetail.website"
+                            formControlName="website" required>
+                        <!--start website validation div-->
+                        <div class="alert alert-danger" *ngIf="companyDetailsFormGroup.get('website').hasError('required') && companyDetailsFormGroup.get('website').touched">
+                            <i class="fa fa-exclamation-circle"></i> Website is required!
+                        </div>
+                        <!--end of website validation div-->
+                    </div>
+                    <!--end of div for website-->
+                    <!--start div for gstin-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>GSTIN No</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.gstin" [value]="companyDetail.gstin"
+                            formControlName="gstin" required>
+                        <!--start gstin validation div-->
+                        <div class="alert alert-danger" *ngIf="companyDetailsFormGroup.get('gstin').hasError('required') && companyDetailsFormGroup.get('gstin').touched">
+                            <i class="fa fa-exclamation-circle"></i> GSTIN No is required!
+                        </div>
+                        <!--end of gstin validation div-->
+                    </div>
+                    <!--end of div for gstin-->
+                    <!--start div for authenticationExpireInSecond-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Session Timeout Limit</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.authenticationExpireInSecond"
+                            [value]="companyDetail.authenticationExpireInSecond" formControlName="authenticationExpireInSecond"
+                            required>
+                        <!--start authenticationExpireInSecond validation div-->
+                        <div class="alert alert-danger" *ngIf="companyDetailsFormGroup.get('authenticationExpireInSecond').hasError('required') && companyDetailsFormGroup.get('authenticationExpireInSecond').touched">
+                            <i class="fa fa-exclamation-circle"></i> Session Timeout Limit is required!
+                        </div>
+                        <!--end of authenticationExpireInSecond validation div-->
+                    </div>
+                    <!--end of div for authenticationExpireInSecond-->
+                    <!--start button div-->
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 justify-content-end button-align-right-style">
+                        <!-- <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 button-holder" style="display: inline-block;">
+                                <button type="submit" class="btn btn-primary primary-button-style" (click)="onClickTab( 'emailDetTab')">
+                                        <i class="fa fa-chevron-circle-left"></i> Back
+                                </button>
+                            </div> -->
+                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 button-holder" style="display: inline-block;">
+                            <button type="submit" class="btn default-button-style" (click)="onClickTab('emailDetTab')">
+                                Next
+                                <i class="fa fa-chevron-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!--end of button div-->
+
+                </div>
+                <!-- end of div form style -->
+            </form>
+            <!-- end of form -->
+        </div>
+        <!-- end of div for companyDetTab -->
+
+        <!-- start div for emailDetTab -->
+        <div class="tabcontent" [style.display]="tabHideShow.emailDetTab? 'block':  'none'">
+            <!-- start form tag for email details -->
+            <form [formGroup]="emailDetailsFormGroup" autocomplete="off">
+                <!-- start div form-style -->
+                <div class="row form-style">
+                    <!--start div for emailId-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Email Id</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.emailId" [value]="companyDetail.emailId"
+                            formControlName="emailId" required>
+                        <!--start emailId validation div-->
+                        <div class="alert alert-danger" *ngIf="emailDetailsFormGroup.get('emailId').hasError('required') && emailDetailsFormGroup.get('emailId').touched">
+                            <i class="fa fa-exclamation-circle"></i> Email Id is required!
+                        </div>
+                        <!--end of emailId validation div-->
+                    </div>
+                    <!--end of div for emailId-->
+                    <!--start div for pass-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Password</label>
+                        <input type="password" class="form-control" [maxlength]="headerSettings.pass" [value]="companyDetail.pass"
+                            formControlName="pass" required>
+                        <!--start pass validation div-->
+                        <div class="alert alert-danger" *ngIf="emailDetailsFormGroup.get('pass').hasError('required') && emailDetailsFormGroup.get('pass').touched">
+                            <i class="fa fa-exclamation-circle"></i> Password is required!
+                        </div>
+                        <!--end of pass validation div-->
+                    </div>
+                    <!--end of div for pass-->
+                    <!--start div for port-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Port</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.port" [value]="companyDetail.port"
+                            formControlName="port" required>
+                        <!--start port validation div-->
+                        <div class="alert alert-danger" *ngIf="emailDetailsFormGroup.get('port').hasError('required') && emailDetailsFormGroup.get('port').touched">
+                            <i class="fa fa-exclamation-circle"></i> Port is required!
+                        </div>
+                        <!--end of port validation div-->
+                    </div>
+                    <!--end of div for port-->
+                    <!--start div for radio button[enableSsl]-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <ng-container *ngIf="enableSslValue ===true">
+                            <div style="display:inline-block;">
+                                <label>Enable SSL</label>
+                                <label class="red-asterick">*</label>
+                                <label class="control control--radio">True
+                                    <input type="radio" name="enableSsl" formControlName="enableSsl" [value]="true"
+                                        [checked]=true (click)="onEnableSslRadioClick(true)" />
+                                    <div class="control__indicator"></div>
+                                </label>
+                            </div>
+                            <div style="display:inline-block;">
+                                <label class="control control--radio">False
+                                    <input type="radio" name="enableSsl" formControlName="enableSsl" [value]="false"
+                                        (click)="onEnableSslRadioClick(false)" />
+                                    <div class="control__indicator"></div>
+                                </label>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="enableSslValue ===false">
+                            <div style="display:inline-block;">
+                                <label>Enable SSL</label>
+                                <label class="red-asterick">*</label>
+                                <label class="control control--radio">True
+                                    <input type="radio" name="enableSsl" formControlName="enableSsl" [value]="true"
+                                        (click)="onEnableSslRadioClick(true)" />
+                                    <div class="control__indicator"></div>
+                                </label>
+                            </div>
+                            <div style="display:inline-block;">
+                                <label class="control control--radio">False
+                                    <input type="radio" name="enableSsl" formControlName="enableSsl" [value]="false"
+                                        [checked]=true (click)="onEnableSslRadioClick(false)" />
+                                    <div class="control__indicator"></div>
+                                </label>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <!--end div for radio button[enableSsl]-->
+                    <!--start div for radio button[bcc required]-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <ng-container *ngIf="bccRequiredValue =='Y'">
+                            <div style="display:inline-block;">
+                                <label>Bcc Required</label>
+                                <label class="red-asterick">*</label>
+                                <label class="control control--radio">Yes
+                                    <input type="radio" name="bccRequired" formControlName="bccRequired" [value]="Y"
+                                        [checked]=true (click)="onBccRequiredRadioClick('Y')" />
+                                    <div class="control__indicator"></div>
+                                </label>
+                            </div>
+                            <div style="display:inline-block;">
+                                <label class="control control--radio">No
+                                    <input type="radio" name="bccRequired" formControlName="bccRequired" [value]="N"
+                                        (click)="onBccRequiredRadioClick('N')" />
+                                    <div class="control__indicator"></div>
+                                </label>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="bccRequiredValue =='N'">
+                            <div style="display:inline-block;">
+                                <label>Bcc Required</label>
+                                <label class="red-asterick">*</label>
+                                <label class="control control--radio">Yes
+                                    <input type="radio" name="bccRequired" formControlName="bccRequired" [value]="Y"
+                                        (click)="onBccRequiredRadioClick('Y')" />
+                                    <div class="control__indicator"></div>
+                                </label>
+                            </div>
+                            <div style="display:inline-block;">
+                                <label class="control control--radio">No
+                                    <input type="radio" name="bccRequired" formControlName="bccRequired" [value]="N"
+                                        [checked]=true (click)="onBccRequiredRadioClick('N')" />
+                                    <div class="control__indicator"></div>
+                                </label>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <!--end div for radio button[bcc required]-->
+
+                    <!--start div for host-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Host</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.host" [value]="companyDetail.host"
+                            formControlName="host" required>
+                        <!--start host validation div-->
+                        <div class="alert alert-danger" *ngIf="emailDetailsFormGroup.get('host').hasError('required') && emailDetailsFormGroup.get('host').touched">
+                            <i class="fa fa-exclamation-circle"></i> Host is required!
+                        </div>
+                        <!--end of host validation div-->
+                    </div>
+                    <!--end of div for host-->
+                    <!--start div for sendMailTimeoutLimit-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Send Mail Timeout Limit</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.sendMailTimeoutLimit"
+                            [value]="companyDetail.sendMailTimeoutLimit" formControlName="sendMailTimeoutLimit"
+                            required>
+                        <!--start sendMailTimeoutLimit validation div-->
+                        <div class="alert alert-danger" *ngIf="emailDetailsFormGroup.get('sendMailTimeoutLimit').hasError('required') && emailDetailsFormGroup.get('sendMailTimeoutLimit').touched">
+                            <i class="fa fa-exclamation-circle"></i> send Mail Timeout Limit is required!
+                        </div>
+                        <!--end of sendMailTimeoutLimit validation div-->
+                    </div>
+                    <!--end of div for sendMailTimeoutLimit-->
+
+
+                    <!--start div for radio button[sent Email]-->
+                    <!-- <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <ng-container *ngIf="sentEmailValue =='Y'">
+                            <div style="display:inline-block;">
+                                <label>Sent Email</label>
+                                <label class="red-asterick">*</label>
+                                <label class="control control--radio">Yes
+                                    <input type="radio" name="sentEmail" formControlName="sentEmail" [value]="Y" [checked]=true (click)="onSentEmailRadioClick('Y')"
+                                    />
+                                    <div class="control__indicator"></div>
+                                </label>
+                            </div>
+                            <div style="display:inline-block;">
+                                <label class="control control--radio">No
+                                    <input type="radio" name="sentEmail" formControlName="sentEmail" [value]="N" (click)="onSentEmailRadioClick('N')" />
+                                    <div class="control__indicator"></div>
+                                </label>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="sentEmailValue =='N'">
+                            <div style="display:inline-block;">
+                                <label>Sent Email</label>
+                                <label class="red-asterick">*</label>
+                                <label class="control control--radio">Yes
+                                    <input type="radio" name="sentEmail" formControlName="sentEmail" [value]="Y" (click)="onSentEmailRadioClick('Y')" />
+                                    <div class="control__indicator"></div>
+                                </label>
+                            </div>
+                            <div style="display:inline-block;">
+                                <label class="control control--radio">No
+                                    <input type="radio" name="sentEmail" formControlName="sentEmail" [value]="N" [checked]=true (click)="onSentEmailRadioClick('N')"
+                                    />
+                                    <div class="control__indicator"></div>
+                                </label>
+                            </div>
+                        </ng-container>
+                    </div> -->
+                    <!--end div for radio button[sent email]-->
+
+
+                    <!--start button div-->
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 justify-content-end button-align-right-style">
+                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 button-holder" style="display: inline-block;">
+                            <button type="submit" class="btn btn-primary primary-button-style" (click)="onClickTab( 'companyDetTab')">
+                                <i class="fa fa-chevron-circle-left"></i> Back
+                            </button>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 button-holder" style="display: inline-block;">
+                            <button type="submit" class="btn default-button-style" (click)="onClickTab('ftpServerTab')">
+                                Next
+                                <i class="fa fa-chevron-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!--end of button div-->
+
+                </div>
+                <!-- end of div form style -->
+            </form>
+            <!-- end of form -->
+        </div>
+        <!-- end of div for emailDetTab -->
+
+        <!-- start div for ftpServerTab -->
+        <div class="tabcontent" [style.display]="tabHideShow.ftpServerTab? 'block':  'none'">
+            <!-- start form tag for email details -->
+            <form [formGroup]="ftpServerDetailsFormGroup" autocomplete="off">
+                <!-- start div form-style -->
+                <div class="row form-style">
+                    <!--start div for ftpProtocol-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>FTP Protocol Name(ex. ftp://)</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.ftpProtocol" [value]="companyDetail.ftpProtocol"
+                            formControlName="ftpProtocol" required>
+                        <!--start ftpProtocol validation div-->
+                        <div class="alert alert-danger" *ngIf="ftpServerDetailsFormGroup.get('ftpProtocol').hasError('required') && ftpServerDetailsFormGroup.get('ftpProtocol').touched">
+                            <i class="fa fa-exclamation-circle"></i>FTP Protocol Name is required!
+                        </div>
+                        <!--end of ftpProtocol validation div-->
+                    </div>
+                    <!--end of div for ftpProtocol-->
+                    <!--start div for ftpServer-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>FTP Server Name(Local)</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.ftpServer" [value]="companyDetail.ftpServer"
+                            formControlName="ftpServer" required>
+                        <!--start ftpServer validation div-->
+                        <div class="alert alert-danger" *ngIf="ftpServerDetailsFormGroup.get('ftpServer').hasError('required') && ftpServerDetailsFormGroup.get('ftpServer').touched">
+                            <i class="fa fa-exclamation-circle"></i>FTP Server Name is required!
+                        </div>
+                        <!--end of ftpServer validation div-->
+                    </div>
+                    <!--end of div for ftpServer-->
+
+
+                    <!--start div for ftpServerPublic-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>FTP Server Name(Public)</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.ftpServerPublic" [value]="companyDetail.ftpServerPublic"
+                            formControlName="ftpServerPublic" required>
+                        <!--start ftpServerPublic validation div-->
+                        <div class="alert alert-danger" *ngIf="ftpServerDetailsFormGroup.get('ftpServerPublic').hasError('required') && ftpServerDetailsFormGroup.get('ftpServerPublic').touched">
+                            <i class="fa fa-exclamation-circle"></i>FTP Server Name is required!
+                        </div>
+                        <!--end of ftpServerPublic validation div-->
+                    </div>
+                    <!--end of div for ftpServerPublic-->
+
+
+
+
+
+                    <!--start div for ftpServerPort-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>FTP Server Port No</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.ftpServerPort" [value]="companyDetail.ftpServerPort"
+                            formControlName="ftpServerPort" required>
+                        <!--start ftpServerPort validation div-->
+                        <div class="alert alert-danger" *ngIf="ftpServerDetailsFormGroup.get('ftpServerPort').hasError('required') && ftpServerDetailsFormGroup.get('ftpServerPort').touched">
+                            <i class="fa fa-exclamation-circle"></i> FTP Server Port No is required!
+                        </div>
+                        <!--end of ftpServerPort validation div-->
+                    </div>
+                    <!--end of div for ftpServerPort-->
+                    <!--start div for ftpServerUser-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>User Id</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.ftpServerUser" [value]="companyDetail.ftpServerUser"
+                            formControlName="ftpServerUser" required>
+                        <!--start ftpServerUser validation div-->
+                        <div class="alert alert-danger" *ngIf="ftpServerDetailsFormGroup.get('ftpServerUser').hasError('required') && ftpServerDetailsFormGroup.get('ftpServerUser').touched">
+                            <i class="fa fa-exclamation-circle"></i> User Id is required!
+                        </div>
+                        <!--end of ftpServerUser validation div-->
+                    </div>
+                    <!--end of div for ftpServerUser-->
+                    <!--start div for ftpServerUserPassword-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Password</label>
+                        <input type="password" class="form-control" [maxlength]="headerSettings.ftpServerUserPassword"
+                            [value]="companyDetail.ftpServerUserPassword" formControlName="ftpServerUserPassword"
+                            required>
+                        <!--start ftpServerUserPassword validation div-->
+                        <div class="alert alert-danger" *ngIf="ftpServerDetailsFormGroup.get('ftpServerUserPassword').hasError('required') && ftpServerDetailsFormGroup.get('ftpServerUserPassword').touched">
+                            <i class="fa fa-exclamation-circle"></i> Password is required!
+                        </div>
+                        <!--end of ftpServerUserPassword validation div-->
+                    </div>
+                    <!-- end of div for ftpServerUserPassword -->
+                    <!--start button div-->
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 justify-content-end button-align-right-style">
+                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 button-holder" style="display: inline-block;">
+                            <button type="submit" class="btn btn-primary primary-button-style" (click)="onClickTab('emailDetTab')">
+                                <i class="fa fa-chevron-circle-left"></i> Back
+                            </button>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 button-holder" style="display: inline-block;">
+                            <button type="submit" class="btn default-button-style" (click)="onClickTab('imageProcessingTab')">
+                                Next
+                                <i class="fa fa-chevron-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!--end of button div-->
+                </div>
+                <!-- end of div form style -->
+            </form>
+            <!-- end of form -->
+        </div>
+        <!-- end of div for ftpServerTab -->
+
+        <!-- start div for imageProcessingTab -->
+        <div class="tabcontent" [style.display]="tabHideShow.imageProcessingTab? 'block':  'none'">
+            <!-- start form tag for image processing details -->
+            <form [formGroup]="imageProcessingDetailsFormGroup" autocomplete="off">
+                <!-- start div form-style -->
+                <div class="row form-style">
+                    <!--start div for imageOkPercentage-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Image Percentage</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.imageOkPercentage" [value]="companyDetail.imageOkPercentage"
+                            formControlName="imageOkPercentage" required>
+                        <!--start imageOkPercentage validation div-->
+                        <div class="alert alert-danger" *ngIf="imageProcessingDetailsFormGroup.get('imageOkPercentage').hasError('required') && imageProcessingDetailsFormGroup.get('imageOkPercentage').touched">
+                            <i class="fa fa-exclamation-circle"></i>Image Percentage is required!
+                        </div>
+                        <!--end of imageOkPercentage validation div-->
+                    </div>
+                    <!--end of div for imageOkPercentage-->
+                    <!--start div for radio button[changeFinancialYear]-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <ng-container *ngIf="changeFinancialYearValue =='Y'">
+                            <div style="display:inline-block;">
+                                <label>Change Financial Year</label>
+                                <label class="red-asterick">*</label>
+                                <label class="control control--radio">Yes
+                                    <input type="radio" name="changeFinancialYear" formControlName="changeFinancialYear"
+                                        [value]="Y" [checked]=true (click)="onChangeFinancialYearRadioClick('Y')" />
+                                    <div class="control__indicator"></div>
+                                </label>
+                            </div>
+                            <div style="display:inline-block;">
+                                <label class="control control--radio">No
+                                    <input type="radio" name="changeFinancialYear" formControlName="changeFinancialYear"
+                                        [value]="N" (click)="onChangeFinancialYearRadioClick('N')" />
+                                    <div class="control__indicator"></div>
+                                </label>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="changeFinancialYearValue =='N'">
+                            <div style="display:inline-block;">
+                                <label>Change Financial Year</label>
+                                <label class="red-asterick">*</label>
+                                <label class="control control--radio">Yes
+                                    <input type="radio" name="changeFinancialYear" formControlName="changeFinancialYear"
+                                        [value]="Y" (click)="onChangeFinancialYearRadioClick('Y')" />
+                                    <div class="control__indicator"></div>
+                                </label>
+                            </div>
+                            <div style="display:inline-block;">
+                                <label class="control control--radio">No
+                                    <input type="radio" name="changeFinancialYear" formControlName="changeFinancialYear"
+                                        [value]="N" [checked]=true (click)="onChangeFinancialYearRadioClick('N')" />
+                                    <div class="control__indicator"></div>
+                                </label>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <!--end div for radio button[changeFinancialYear]-->
+                    <!--start div for financialYear-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Financial Year</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.financialYear" [value]="companyDetail.financialYear"
+                            formControlName="financialYear" required>
+                        <!--start financialYear validation div-->
+                        <div class="alert alert-danger" *ngIf="imageProcessingDetailsFormGroup.get('financialYear').hasError('required') && imageProcessingDetailsFormGroup.get('financialYear').touched">
+                            <i class="fa fa-exclamation-circle"></i> Financial Year No is required!
+                        </div>
+                        <!--end of financialYear validation div-->
+                    </div>
+                    <!--end of div for financialYear-->
+
+                    <!--start button div-->
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 justify-content-end button-align-right-style">
+                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 button-holder" style="display: inline-block;">
+                            <button type="submit" class="btn btn-primary primary-button-style" (click)="onClickTab('ftpServerTab')">
+                                <i class="fa fa-chevron-circle-left"></i> Back
+                            </button>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 button-holder" style="display: inline-block;">
+                            <button type="submit" class="btn default-button-style" (click)="onClickTab('applicationDetTab')">
+                                Next
+                                <i class="fa fa-chevron-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!--end of button div-->
+                </div>
+                <!-- end of div form style -->
+            </form>
+            <!-- end of form -->
+        </div>
+        <!-- end of div for imageProcessingTab -->
+
+
+
+        <!-- start div for applicationDetTab -->
+        <div class="tabcontent" [style.display]="tabHideShow.applicationDetTab? 'block':  'none'">
+            <!-- start form tag for application details -->
+            <form [formGroup]="applicationDetailsFormGroup" autocomplete="off">
+                <!-- start div form-style -->
+                <div class="row form-style">
+                    <!--start div for application domain name-->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Domain Name</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.applicationDomainName"
+                            [value]="companyDetail.applicationDomainName" formControlName="applicationDomainName">
+                    </div>
+                    <!--end of div for application domain name-->
+
+                    <!--start div for application public ip address -->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Public Ip</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.applicationServerPublicIPAddress"
+                            [value]="companyDetail.applicationServerPublicIPAddress" formControlName="applicationServerPublicIPAddress">
+                    </div>
+                    <!--end of div for application public ip address-->
+
+                    <!--start div for application local ip address -->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Local Ip</label>
+                        <input type="text" class="form-control" [maxlength]="headerSettings.applicationServerLocalIPAddress"
+                            [value]="companyDetail.applicationServerLocalIPAddress" formControlName="applicationServerLocalIPAddress">
+                    </div>
+                    <!--end of div for application local ip address-->
+
+                    <!--start div for application server port no -->
+                    <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <label>Port No</label>
+                        <input type="number" class="form-control" [value]="companyDetail.applicationServerPortNo"
+                            formControlName="applicationServerPortNo">
+                    </div>
+                    <!--end of div for application server port no-->
+
+                    <!--start button div-->
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 justify-content-end button-align-right-style">
+                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 button-holder" style="display: inline-block;">
+                            <button type="submit" class="btn btn-primary primary-button-style" (click)="onClickTab('imageProcessingTab')">
+                                <i class="fa fa-chevron-circle-left"></i> Back
+                            </button>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 button-holder" style="display: inline-block;">
+                            <button type="submit" class="btn default-button-style" (click)="onClickTab('sapTab')">
+                                Next
+                                <i class="fa fa-chevron-circle-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!--end of button div-->
+                </div>
+                <!-- end of div form style -->
+            </form>
+            <!-- end of form -->
+        </div>
+        <!-- end of div for applicationDetTab -->
+
+        <!-- start div sapTab -->
+        <div class="tabcontent" [style.display]="tabHideShow.sapTab? 'block':  'none'">
+            <!-- start table div -->
+            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom: 15px; margin-top: 5px;overflow: auto;width: auto;">
+                <table class="table-style">
+                    <thead>
+                        <tr class="th-style">
+                            <td class="header-style-first header-font-style hideextra">
+                                SlNo
+                            </td>
+
+                            <td class="header-style header-font-style hideextra">
+                                Use For
+                                <label class="red-asterick">*</label>
+                            </td>
+                            <td class="header-style header-font-style hideextra">
+                                Company Code
+                                <label class="red-asterick">*</label>
+                            </td>
+
+                            <td class="header-style header-font-style hideextra">
+                                Description
+                                <label class="red-asterick">*</label>
+                            </td>
+                            <td class="header-style header-font-style hideextra">
+                                Application Server
+                                <label class="red-asterick">*</label>
+                            </td>
+                            <td class="header-style header-font-style hideextra">
+                                System Number
+                                <label class="red-asterick">*</label>
+                            </td>
+                            <td class="header-style header-font-style hideextra">
+                                System ID
+                                <label class="red-asterick">*</label>
+                            </td>
+
+                            <td class="header-style header-font-style hideextra">
+                                Language
+                                <label class="red-asterick">*</label>
+                            </td>
+
+                            <td class="header-style header-font-style hideextra">
+                                SAP Router
+                                <label class="red-asterick">*</label>
+                            </td>
+
+                            <td class="header-style header-font-style hideextra">
+                                Client
+                                <label class="red-asterick">*</label>
+                            </td>
+
+                            <td class="header-style header-font-style hideextra">
+                                User Id
+                                <label class="red-asterick">*</label>
+                            </td>
+                            <td class="header-style header-font-style hideextra">
+                                Password
+                                <label class="red-asterick">*</label>
+                            </td>
+                            <td class="header-style-last header-font-style hideextra">
+                                Physical Path
+                                <label class="red-asterick">*</label>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="tr-style" *ngFor="let sapDet of sapDetailsArr
+                              let odd = odd; let even = even;"
+                            [ngClass]="{even: even, odd: odd }">
+                            <td class="td-style-first hideextra">
+                                <span aria-label="Close" class="remove-item" style="display: inline-block;" title="remove item"
+                                    (click)="removeItemByCloseIcon(sapDet.slNo)">
+                                    <span aria-hidden="true">×</span>
+                                </span>&nbsp;&nbsp;
+                                <span style="display: inline-block;">{{sapDet.slNo}}</span>
+                            </td>
+                            <td class="td-style">
+                                {{sapDet.useFor}}
+                                <i class="fa fa-pencil-square text-info" style="cursor: pointer;" (click)="openEditModal(sapDet)"></i>
+                            </td>
+                            <td class="td-style">
+                                {{sapDet.sapCompanyCode}}
+                            </td>
+                            <td class="td-style">
+                                {{sapDet.sapDescription}}
+                            </td>
+                            <td class="td-style">
+                                {{sapDet.sapApplicationServer}}
+                            </td>
+                            <td class="td-style">
+                                {{sapDet.sapSystemNo}}
+                            </td>
+                            <td class="td-style">
+                                {{sapDet.sapSystemId}}
+                            </td>
+                            <td class="td-style">
+                                {{sapDet.sapLanguage}}
+                            </td>
+                            <td class="td-style">
+                                {{sapDet.sapRouter}}
+                            </td>
+                            <td class="td-style">
+                                {{sapDet.sapClient}}
+                            </td>
+                            <td class="td-style">
+                                {{sapDet.sapUser}}
+                            </td>
+                            <td class="td-style">
+                                {{sapDet.sapUserPassword}}
+                            </td>
+                            <td class="td-style-last">
+                                {{sapDet.physicalPath}}
+                            </td>
+                        </tr>
+                        <tr class="tr-style">
+                            <td class="td-style-first hideextra">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Add Item(s)
+                                <i style="font-size:16px;cursor: pointer;" title="Click here" class="fa fa-plus-circle"
+                                    (click)="onClickAddItemIcon()"></i>
+                            </td>
+                            <td class="td-style">
+
+                            </td>
+                            <td class="td-style">
+
+                            </td>
+                            <td class="td-style">
+
+                            </td>
+                            <td class="td-style">
+
+                            </td>
+                            <td class="td-style">
+
+                            </td>
+                            <td class="td-style">
+
+                            </td>
+                            <td class="td-style">
+
+                            </td>
+                            <td class="td-style">
+
+                            </td>
+                            <td class="td-style">
+
+                            </td>
+                            <td class="td-style">
+
+                            </td>
+                            <td class="td-style">
+
+                            </td>
+                            <td class="td-style-last">
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- end of table div -->
+
+            <!-- start div for Submit  and Cancel Button-->
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 justify-content-end button-align-right-style">
+                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 button-holder" style="display: inline-block;">
+                    <button type="submit" class="btn btn-primary primary-button-style" (click)="onClickTab('applicationDetTab')">
+                        <i class="fa fa-chevron-circle-left"></i> Back
+                    </button>
+                </div>
+
+                <!-- start div for Submit Button-->
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2 button-holder" style="display: inline-block;">
+                    <button type="submit" class="btn btn-primary primary-button-style" (click)="onClickCompanyDetSubmit()">Submit
+                    </button>
+                </div>
+                <!-- end div for Submit Button-->
+
+                <!-- start div for Cancel Button-->
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2 button-holder" style="display: inline-block;">
+                    <button type="submit" class="btn default-button-style" (click)="onCancel()">
+                        Cancel
+                    </button>
+                </div>
+                <!-- end div for Cancel Button-->
+
+            </div>
+            <!-- start div for Submit  and Cancel Button-->
+            <!--end of button div -->
+        </div>
+        <!-- end of div sapTab -->
+
+        <!-- error msg div -->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="errMsgShowFlag">
+            <div class="alert alert-danger">
+                {{errorMsg}}&nbsp;
+                <button aria-label="Close" class="close" type="button" (click)="deleteResErrorMsgOnClick()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <br />
+            <br />
+        </div>
+        <!-- end of error msg div -->
+    </div>
+    <!-- end of div tab -->
+
+</div>
+<!--end of page container-->
+
+<!-- edit modal -->
+<div *ngIf="editModal" class="overlay"></div>
+<!-- <div class="modal">I'm the modal window!</div> -->
+<div *ngIf="editModal" class="edit-modal">
+    <!-- header div -->
+    <div class="modal-header">
+        <div> Edit SAP Details </div>
+        <div (click)="cancelModal()" style="cursor: pointer;">x</div>
+    </div>
+    <!-- end of header div -->
+    <!-- start body div -->
+    <div class="modal-body">
+        <!-- start edit item modal -->
+        <div class="form-group">
+            <!-- start form tag -->
+            <form [formGroup]="editSAPItemFormGroup">
+                <div style="display: inline-flex; width: 100%">
+                    <div style="width: 30%">
+                        <label style="width: 40%;">Use For</label>
+                        <input type="text" style="width: 80%" formControlName="useFor" readonly />
+                    </div>
+                    <div style="width: 30%">
+                        <label style="width: 40%;">Company Code</label>
+                        <input type="text" style="width: 80%" formControlName="sapCompanyCode" maxlength="4" required/>
+                    </div>
+                    <div style="width: 30%">
+                        <label style="width: 40%;">Description</label>
+                        <input type="text" style="width: 80%" formControlName="sapDescription" maxlength="20" required/>
+                    </div>
+                </div>
+                <div style="display: inline-flex; width: 100%">
+                    <div style="width: 30%">
+                        <label style="width: 50%;">Application Server</label>
+                        <input type="text" style="width: 80%" formControlName="sapApplicationServer" maxlength="15" required/>
+                    </div>
+                    <div style="width: 30%">
+                        <label style="width: 40%;">System Number</label>
+                        <input type="text" style="width: 80%" formControlName="sapSystemNo" maxlength="3" required/>
+                    </div>
+                    <div style="width: 30%">
+                        <label style="width: 40%;">System ID</label>
+                        <input type="text" style="width: 80%" formControlName="sapSystemId" maxlength="5" required/>
+                    </div>
+                </div>
+                <div style="display: inline-flex; width: 100%">
+                    <div style="width: 30%">
+                        <label style="width: 40%;">Language </label>
+                        <input type="text" style="width: 80%" formControlName="sapLanguage" maxlength="2" required/>
+                    </div>
+                    <div style="width: 30%">
+                        <label style="width: 40%;">SAP Router</label>
+                        <input type="text" style="width: 80%" formControlName="sapRouter" maxlength="25" required/>
+                    </div>
+                    <div style="width: 30%">
+                        <label style="width: 40%;">Client</label>
+                        <input type="text" style="width: 80%" formControlName="sapClient" maxlength="3" required/>
+                    </div>
+                </div>
+                <div style="display: inline-flex; width: 100%">
+                    <div style="width: 30%">
+                        <label style="width: 40%;">User Id</label>
+                        <input type="text" style="width: 80%" formControlName="sapUser" maxlength="30" required/>
+                    </div>
+                    <div style="width: 30%">
+                        <label style="width: 40%;">Password</label>
+                        <input type="text" style="width: 80%" formControlName="sapUserPassword" maxlength="30" required/>
+                    </div>
+                    <div style="width: 30%">
+                        <label style="width: 40%;">Physical Path</label>
+                        <input type="text" style="width: 80%" formControlName="sapPhysicalPath" maxlength="30" required/>
+                    </div>
+                </div>
+            </form>
+            <!-- end of form tag -->
+        </div>
+        <!-- end of div -->
+        <!-- start button div -->
+        <div>
+            <div style="float: right;">
+                <button type="submit" class="btn btn-primary primary-button-style" style="width: 138px; height: 35px;margin-right: 170px;"
+                    (click)="updateSapItem()" [disabled]="!editSAPItemFormGroup.valid">Update
+                </button>
+            </div>
+        </div>
+        <!-- end of button div -->
+    </div>
+    <!-- end of body div -->
+</div>
+<!--end of edit-modal -->
+
+
+<!--spinner-->
+<ispl-busy-spinner *ngIf="busySpinner.busy">
+</ispl-busy-spinner>

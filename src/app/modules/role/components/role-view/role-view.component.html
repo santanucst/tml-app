@@ -1,0 +1,102 @@
+<!-- start div page-container -->
+<div class="page-container">
+  <!-- start div breadcrumb -->
+  <div>
+    <ol class="breadcrumb breadcrumb-custom">
+      <li class="breadcrumb-item"><a href="#/home"> <i class="fa fa-home"></i> Home </a></li>
+      <!-- <li class="breadcrumb-item active">{{title}}</li> -->
+      <li class="breadcrumb-item active"><ng-container *ngIf="routeParam === 'modify'">Modify </ng-container><ng-container *ngIf="routeParam === 'view'">View </ng-container>Role</li>
+    </ol>
+  </div>
+  <!-- end of div breadcrumb -->
+
+   <!-- start div for container -->
+   <div class="container col-lg-12 col-md-12 col-sm-12 col-xs-12" style="width:100%;">
+
+    <!--start search div -->
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="input-group" style="width:100%;">
+          &nbsp;
+        </div>
+      </div>
+      <div [formGroup]="searchFormGroup" class="input-group col-lg-6 col-md-6 col-sm-6 col-xs-12" style="float: right;">
+        <input type="search" class="form-control search-input" formControlName="gridSearch" placeholder="Search">
+        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+      </div>
+    </div>
+    <!-- end of search div -->
+
+    <!--start div for action button-->
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: 60px; padding-bottom: 0px;">
+      <button type="button" class="btn btn-style2 cursor-pointer" *ngIf="routeParam === 'modify'" (click)="editUser()" [disabled]="selectedData.length !== 1">
+        <i class="fa fa-pencil-square-o" style="font-size: 13px; color: #FFFFFF"></i> Edit Role
+      </button>
+    </div>
+    <!--end of div for action button-->
+
+    <!-- start table div -->
+    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom: 15px; margin-top: 5px;">
+      <table class="table-style">
+        <thead>
+        <tr class="th-style">
+          <td class="header-style-first hideextra">
+            <!-- <input type="checkbox" [checked]="checkAll" (click)="selectAllCheck()"/> -->
+          </td>
+          <td class="header-style hideextra" (click)="onClick(userViewDetails.header.roleId)">
+            {{userViewDetails.header?.roleId}}
+            <i *ngIf="sortSelection.sortData == userViewDetails.header?.roleId && sortSelection.orderType == 'ASC'"
+               class="fa fa-sort-asc">
+            </i>
+            <i *ngIf="sortSelection.sortData == userViewDetails.header?.roleId && sortSelection.orderType == 'DESC'"
+               class="fa fa-sort-desc">
+            </i>
+            <i *ngIf="sortSelection.orderType == 'NA'"
+               class="fa fa-sort">
+            </i>
+          </td>
+          <td class="header-style-last" (click)="onClick(userViewDetails.header.roleName)">
+            {{userViewDetails.header?.roleName}}
+            <i
+              *ngIf="sortSelection.sortData == userViewDetails.header?.roleName && sortSelection.orderType == 'ASC'"
+              class="fa fa-sort-asc">
+            </i>
+            <i
+              *ngIf="sortSelection.sortData == userViewDetails.header?.roleName && sortSelection.orderType == 'DESC'"
+              class="fa fa-sort-desc">
+            </i>
+            <i *ngIf="sortSelection.orderType == 'NA'"
+               class="fa fa-sort">
+            </i>
+          </td>          
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="tr-style" *ngFor="let userViewValue of userViewDetails.details 
+        | isplSearch: searchFormGroup.value.gridSearch : userViewDetails.header;
+              let odd = odd; let even = even;" [ngClass]="{even: even, odd: odd }">
+          <td class="td-style-first">
+            <input type="checkbox" [checked]="otherCheck" *ngIf="routeParam === 'modify'"
+                                            (click)="userDetailsByCheckbox(userViewValue)"/>
+          </td>
+          <td class="td-style"  *ngIf="routeParam === 'view'" >
+            <span class="custom-link" title="Click here" (click)="userDetailsByCheckbox(userViewValue)">
+              {{userViewValue.roleId}}
+            </span>           
+          </td>  
+          <td class="td-style"  *ngIf="routeParam === 'modify'" >
+              {{userViewValue.roleId}}
+          </td>                              
+          <td class="td-style-last">{{userViewValue.roleName}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- end of table div -->
+
+  </div>
+  <!-- end of div container -->
+
+<ispl-busy-spinner *ngIf="!userViewDetails.header && !userViewDetails.details">
+
+</ispl-busy-spinner>

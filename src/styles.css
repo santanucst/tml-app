@@ -1,0 +1,36 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css');
+@import url('//fonts.googleapis.com/css?family=Open+Sans:400,700,800,300');
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
+@import '~ngx-toastr/toastr.css';
+
+/*start style for step div*/
+.step-complete{
+  /*-webkit-clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);*/
+  clip-path: polygon(0 0, 94% 0, 100% 51%, 94% 100%, 0 100%);
+  background-color:#1c85bf;
+}
+
+.step-active{
+  /*-webkit-clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);*/
+  clip-path: polygon(96% 0, 100% 50%, 95% 100%, 0 99%, 4% 48%, 0 0);
+  background-color: #009D22;
+}
+
+.step-inactive{
+  /*-webkit-clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);*/
+  clip-path: polygon(96% 0, 100% 50%, 95% 100%, 0 99%, 4% 48%, 0 0);
+  background-color: #eceeef;
+}
+
+.step-row {
+  display: flex; /* equal height of the children */
+}
+
+.step-col {
+  flex: 1;
+}
+/*end style for step div*/
+

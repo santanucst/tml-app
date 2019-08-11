@@ -1,0 +1,144 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+    <div class="modal-header col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <button type="button" style="margin-left: 449px;" class="close" aria-label="Close" (click)="onClickOk();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <!-- start modal body -->
+    <div class="modal-body col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h4 class="modal-title" class="wrap-style" style="margin-left:176px;">Sap Details</h4>
+        <!-- start table div -->
+        <div style="width: 436px;height: 300px;overflow: auto;">
+            <table class="table-style">
+                <thead>
+                    <tr class="th-style">
+                        <td class="header-style-first header-font-style hideextra">
+                            Use For
+                            <label class="red-asterick">*</label>
+                        </td>
+                        <td class="header-style header-font-style hideextra">
+                            Company Code
+                            <label class="red-asterick">*</label>
+                        </td>
+
+                        <td class="header-style header-font-style hideextra">
+                            Description
+                            <label class="red-asterick">*</label>
+                        </td>
+                        <td class="header-style header-font-style hideextra">
+                            Application Server
+                            <label class="red-asterick">*</label>
+                        </td>
+                        <td class="header-style header-font-style hideextra">
+                            System Number
+                            <label class="red-asterick">*</label>
+                        </td>
+                        <td class="header-style header-font-style hideextra">
+                            System ID
+                            <label class="red-asterick">*</label>
+                        </td>
+
+                        <td class="header-style header-font-style hideextra">
+                            Language
+                            <label class="red-asterick">*</label>
+                        </td>
+
+                        <td class="header-style header-font-style hideextra">
+                            SAP Router
+                            <label class="red-asterick">*</label>
+                        </td>
+
+                        <td class="header-style header-font-style hideextra">
+                            Client
+                            <label class="red-asterick">*</label>
+                        </td>
+
+                        <td class="header-style header-font-style hideextra">
+                            User Id
+                            <label class="red-asterick">*</label>
+                        </td>
+                        <td class="header-style header-font-style hideextra">
+                            Password
+                            <label class="red-asterick">*</label>
+                        </td>
+                        <td class="header-style-last header-font-style hideextra">
+                            Physical Path
+                            <label class="red-asterick">*</label>
+                        </td>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="tr-style" >
+                        <!-- [ngClass]="{even: even, odd: odd }"> -->
+                        <td class="td-style-first hideextra">
+                            <select #useFor style="height: 30px;" class="custom-select">
+                                <option *ngFor="let uf of useForArr" value="{{ uf}}">{{ uf }}
+                                </option>
+                            </select>
+                        </td>
+                        <td class="td-style hideextra">
+                            <input type="text" #sapCompanyCode style="width:40px;" maxlength="4" required>
+                        </td>
+                        <td class="td-style hideextra">
+                            <input type="text" #sapDescription maxlength="20" required>
+                        </td>
+                        <td class="td-style hideextra">
+                            <input type="text" #sapApplicationServer maxlength="15" required>
+                        </td>
+                        <td class="td-style hideextra">
+                            <input type="text" #sapSystemNo style="width:35px;" maxlength="3" required>
+                        </td>
+                        <td class="td-style hideextra">
+                            <input type="text" #sapSystemId style="width:60px;" maxlength="5" required>
+                        </td>
+                        <td class="td-style hideextra">
+                            <input type="text" #sapLanguage style="width: 25px;" maxlength="2" required>
+                        </td>
+
+                        <td class="td-style hideextra">
+                            <input type="text" #sapRouter maxlength="25" required>
+                        </td>
+                        <td class="td-style hideextra">
+                            <input type="text" #sapClient style="width: 35px;" maxlength="3" required>
+                        </td>
+                        <td class="td-style hideextra">
+                            <input type="text" #sapUser maxlength="30" required>
+                        </td>
+                        <td class="td-style hideextra">
+                            <input type="password" #sapUserPassword maxlength="30" required>
+                        </td>
+                        <td class="td-style-last hideextra">
+                            <input type="text" #physicalPath maxlength="30" required>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--end table div-->
+
+        <!-- error msg div -->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="errMsgShowFlag">
+            <div class="alert alert-danger">
+                {{errorMsg}}&nbsp;
+                <button aria-label="Close" class="close" type="button" (click)="deleteResErrorMsgOnClick()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <br/>
+            <br/>
+        </div>
+        <!-- end of error msg div -->
+
+    </div>
+    <!-- end of modal body -->
+
+    <div class="modal-footer col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <button type="button" class="btn btn-primary" style="cursor: pointer;" (click)="sapDetailsModalSubmit
+        (useFor.value,sapCompanyCode.value,sapDescription.value,sapApplicationServer.value,sapSystemNo.value,sapSystemId.value,sapLanguage.value,sapRouter.value,sapClient.value,sapUser.value,sapUserPassword.value,physicalPath.value);">Submit</button>
+
+    </div>
+
+</div>

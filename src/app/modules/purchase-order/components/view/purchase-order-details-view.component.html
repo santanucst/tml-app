@@ -1,0 +1,421 @@
+<div class="page-container">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#/home">Home</a>
+    </li>
+    <li class="breadcrumb-item active">
+      Purchase Order Report
+    </li>
+  </ol>
+
+  <!-- Write Your Code -->
+  <!-- start div for container -->
+  <div class="container col-lg-12 col-md-12 col-sm-12 col-xs-12" style="width:100%;">
+    <div *ngIf="serverSearchArr.length > 0 || anyValue" style="margin-bottom: 10px;">
+      <span style="cursor: pointer;" class="searched-data" title="Clear All" (click)="deleteSearchedValOnClick()">
+        <b>Detailed Searched Value:</b>
+        <ng-container *ngFor="let srvrsrchArrEl of serverSearchArr">
+          <span style="color: #1c2ad4;font-weight: 500; font-size: small;">{{srvrsrchArrEl.htmlLblName}}: </span>
+          <span style="color: black;font-weight: 500;font-size: small;">"{{srvrsrchArrEl.value}}"</span>
+        </ng-container>
+        <ng-container *ngIf="anyValue">
+          <span style="color: black;font-weight: 500;font-size: small;">"{{anyValue}}"</span>
+        </ng-container>
+        <div style="display:inline-block;">
+          <button aria-label="Close" class="close" type="button" style="margin-top: 10%;">
+            <span aria-hidden="true">×</span>
+          </button>&nbsp;
+        </div>
+      </span>
+    </div>
+
+
+    <!--start search div -->
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="display: inline-block;">
+        <button type="submit" class="btn btn-default cursor-pointer" style="float: right;" (click)="onClickFullSearchBtn()">
+          Detailed Search
+          <i class="fa fa-search" style="padding-left: 7%;"></i>
+        </button>
+      </div>
+
+      <div [formGroup]="searchFormGroup" class="input-group col-lg-6 col-md-6 col-sm-6 col-xs-12" style="float: right;">
+        <input type="search" class="form-control search-input" formControlName="gridSearch" placeholder="Search">
+        <span class="input-group-addon">
+          <i class="fa fa-search"></i>
+        </span>
+      </div>
+    </div>
+    <!-- end of search div -->
+
+
+    <!--start div for row-->
+    <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: 15px;">
+
+      <!--start div for faceted nav-->
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 faceted-nav" *ngIf="facetedDataDetails && facetedDataDetails.length > 0" style="overflow-x: scroll;max-height: 666px;">
+
+        <!--start div for status-->
+        <ng-container *ngFor="let facetedheader of facetedDataDetails">
+          <ng-container *ngIf="facetedheader.groupFacets.length > 0">
+            <div class="row faceted-header" style="height:33px;">
+              <span class="label-faceted-header">{{facetedheader.groupDisp}}</span>
+            </div>
+            <div *ngFor="let facetedData of facetedheader.groupFacets">
+              <div style="padding: 5px;">
+                <input type="checkbox" [checked]="facetedData.facetChecked" [disabled]="!facetedData.facetEnabled" (click)="onClickFilter(facetedheader.groupName,facetedData.facetName,facetedData.facetChecked)"
+                />
+                <span>
+                  {{facetedData.facetName}}
+                </span>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+        <!--end div for status-->
+      </div>
+      <!-- end div for faceted nav -->
+
+      <!--start div for actn btn and table grid (col-md-10)-->
+      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+
+        <!--start div for row for actn btn n table grid-->
+        <div class="row">
+
+          <!--start div for showing faceted data-->
+
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="facetedArray.length!=0">
+            <div class="faceted-data-div" *ngFor="let fecetedNode of facetedArray" style="display:inline-block;margin: 4px;">
+              {{fecetedNode.facetedData}}
+            </div>
+            <br/>
+            <br/>
+          </div>
+
+          <!--end of div for showing faceted data-->
+
+          <!--start div for actn btn and faceted nav -->
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-left: 10px;">
+            <!--start form for poDetailsFormGroup-->
+            <div>
+              <form [formGroup]="poDetailsFormGroup" autocomplete="off">
+                <!--start div of row-->
+                <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-left: 30px;">
+                  <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <b>Purchase Order Date</b>
+                  </div>
+                  <!--start div of fromDate-->
+                  <span style="display: inline-block; padding-top: 9px;">From Date </span>
+                  <div class="form-group col-xs-12 col-sm-5 col-md-4 col-lg-3" style="padding: 2px;display: inline-block;">
+                    <input type="date" class="form-control" formControlName="fromDate" #fromDate (change)="compareTwoDates('fromDate',fromDate.value,toDate.value)"
+                    />
+                    <div class="alert alert-danger" *ngIf="fromDateErr">
+                      <i class="fa fa-exclamation-circle"></i> From Date should be less than or equals to To Date!
+                    </div>
+                  </div>
+                  <!--end div for fromDate-->
+                  <!--start div of toDate-->
+                  <span style="display: inline-block; padding-top: 9px;">To Date </span>
+                  <div class="form-group col-xs-12 col-sm-5 col-md-4 col-lg-3" style="padding: 2px;display: inline-block;">
+                    <input type="date" class="form-control" formControlName="toDate" #toDate (change)="compareTwoDates('toDate',fromDate.value,toDate.value)"
+                    />
+                    <div class="alert alert-danger" *ngIf="toDateErr">
+                      <i class="fa fa-exclamation-circle"></i> To Date should be greater than or equals to From Date!
+                    </div>
+                  </div>
+                  <!--end div for toDate-->
+                  <!-- start div for switch button -->
+                  <div style="margin-top: 11px;cursor: pointer;display: inline-block;">
+                    <!-- Small switch -->
+                    <div class="form-group">
+                      <span class="switch switch-sm">
+                        <input type="checkbox" class="switch" [checked]="switchCheckboxVal" id="switch-sm" (click)="onClickSwitchButton(switchCheckboxVal)">
+                        <!-- [checked]="switchInputCheck" > -->
+                        <!-- (change)="switchInputCheck = !switchInputCheck" -->
+
+                        <label style="padding-top: 4px;" for="switch-sm">
+                          With
+                          <ng-container *ngIf="!switchCheckboxVal">out</ng-container> date </label>
+                      </span>
+                    </div>
+                  </div>
+                  <!-- end of div for switch button -->
+                </div>
+                <!-- end of div row -->
+              </form>
+            </div>
+            <!--end form for poDetailsFormGroup-->
+
+            <!-- start div to show report view date n time -->
+            <div class="col-lg-12 col-md-12 col-xs-12">
+              <div style="float:left">
+                <div class="button-holder">
+                  <button type="submit" class="btn btn-sm btn-style2" (click)="onClickDatesButton(fromDate.value,toDate.value,switchCheckboxVal)">
+                    View
+                  </button>
+                </div>
+              </div>
+              <br/>
+              <div style="float:right">
+                <span class="hideextra" style="float:right">
+                  <b>Report View Date:</b>&nbsp;&nbsp; {{poViewDetails.processStartDateTime}}&nbsp;
+                </span>
+              </div>
+            </div>
+            <!-- end of div to show report view date n time -->
+
+            <!-- start table div -->
+            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom: 15px;
+            overflow-x: scroll; overflow-y: hidden;">
+              <table class="table-style" style="text-align: center;">
+                <thead>
+                  <tr class="th-style">
+                    <!-- <td class="header-style-first">
+                      <input type="checkbox" [checked]="checkAll" (click)="selectAllCheck()" />
+                    </td> -->
+
+                    <td class="header-style-first hideextra" (click)="onClickForSortSelection(podetailsViewHeader.poNumber)">
+                      {{podetailsViewHeader?.poNumber}}
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.poNumber && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.poNumber && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != podetailsViewHeader?.poNumber" class="fa fa-sort"></i>
+                    </td>
+                    <td class="header-style hideextra" (click)="onClickForSortSelection(podetailsViewHeader.poDate)">
+                      {{podetailsViewHeader?.poDate}}
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.poDate && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.poDate && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != podetailsViewHeader?.poDate" class="fa fa-sort"></i>
+                    </td>
+                    
+                    <td class="header-style hideextra" (click)="onClickForSortSelection(podetailsViewHeader.useFor)">
+                      {{podetailsViewHeader?.useFor}}
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.useFor && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.useFor && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != podetailsViewHeader?.useFor" class="fa fa-sort"></i>
+                    </td>
+
+                    <td class="header-style hideextra" (click)="onClickForSortSelection(podetailsViewHeader.poType)">
+                      {{podetailsViewHeader?.poType}}
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.poType && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.poType && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != podetailsViewHeader?.poType" class="fa fa-sort"></i>
+                    </td>
+
+                    <td class="header-style hideextra" (click)="onClickForSortSelection(podetailsViewHeader.vendorName)">
+                      {{podetailsViewHeader?.vendorName}}
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.vendorName && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.vendorName && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != podetailsViewHeader?.vendorName" class="fa fa-sort"></i>
+                    </td>
+                    <td class="header-style hideextra" (click)="onClickForSortSelection(podetailsViewHeader.totalInvoice)">
+                      {{podetailsViewHeader?.totalInvoice}}
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.totalInvoice && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.totalInvoice && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != podetailsViewHeader?.totalInvoice" class="fa fa-sort"></i>
+                    </td>
+
+                    <td class="header-style hideextra" (click)="onClickForSortSelection(podetailsViewHeader.poStatusDesc)">
+                      {{podetailsViewHeader?.poStatusDesc}}
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.poStatusDesc && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.poStatusDesc && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != podetailsViewHeader?.poStatusDesc" class="fa fa-sort"></i>
+                    </td>
+                    <td class="header-style hideextra" (click)="onClickForSortSelection(podetailsViewHeader.poCurrency)">
+                      {{podetailsViewHeader?.poCurrency}}
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.poCurrency && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.poCurrency && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != podetailsViewHeader?.poCurrency" class="fa fa-sort"></i>
+                    </td>
+                    <td class="header-style hideextra" (click)="onClickForSortSelection(podetailsViewHeader.poHeadName)">
+                      {{podetailsViewHeader?.poHeadName}}
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.poHeadName && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == podetailsViewHeader?.poHeadName && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != podetailsViewHeader?.poHeadName" class="fa fa-sort"></i>
+                    </td>                    
+                    <td class="header-style-last hideextra">
+                      {{podetailsViewHeader?.docName}}
+                    </td>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="tr-style" *ngFor="let poDetViewValue of poViewDetails.details
+              | isplSearch: searchFormGroup.value.gridSearch : podetailsViewHeader;
+              let odd = odd; let even = even;" [ngClass]="{even: even, odd: odd }">
+                    <td class="td-style-first">
+                      <ng-container *ngIf="poDetViewValue.totalInvoice > 0 then thenBlockOfPONO; else elseBlockOfPONO"></ng-container>
+                      <ng-template #thenBlockOfPONO>
+                        <span class="custom-link" title="Click here" (click)="onClickPONumber(poDetViewValue.poNumber,poDetViewValue.poStatusDesc)">
+                          {{poDetViewValue.poNumber}}
+                        </span>
+                      </ng-template>
+                      <ng-template #elseBlockOfPONO>
+                        {{poDetViewValue.poNumber}}
+                      </ng-template>
+                    </td>
+                    <td class="td-style hideextra">{{poDetViewValue.poDate|date: 'dd-MMM-yyyy'}}</td>
+                    <td class="td-style">{{poDetViewValue.useFor}}</td>
+                    <td class="td-style">{{poDetViewValue.poType}}</td>
+                    <td class="td-style hideextra">{{poDetViewValue.vendorName}}</td>
+                    <td class="td-style hideextra">{{poDetViewValue.totalInvoice}}</td>
+                    <td class="td-style hideextra">{{poDetViewValue.poStatusDesc}}</td>
+                    <td class="td-style">{{poDetViewValue.poCurrency}}</td>
+
+                    <!-- <td class="td-style">{{poDetViewValue.poHeadNames}}</td> -->
+                    <ng-container *ngIf="poDetViewValue.poHeadNames.length===1 then thenBlockOfHeadNames; else elseBlockOfHeadNames"></ng-container>
+                    <ng-template #thenBlockOfHeadNames>
+                      <td class="td-style hideextra">
+                        <ng-container *ngFor="let hn of poDetViewValue.poHeadNames">
+                          {{hn}}
+                        </ng-container>
+                      </td>
+                    </ng-template>
+                    <ng-template #elseBlockOfHeadNames>
+                      <td class="td-style hideextra">
+                        <input id="{{poDetViewValue.poSlNo}}" class="toggle input-checkbox" type="checkbox">
+                        <label for="{{poDetViewValue.poSlNo}}" style="cursor: pointer;">Head Names</label>
+                        <div id="{{poDetViewValue.poSlNo}}" class="expand">
+                          <section>
+                            <ng-container *ngFor="let hn of poDetViewValue.poHeadNames">
+                              {{hn}}
+                              <br/>
+                            </ng-container>
+                          </section>
+                        </div>
+                      </td>
+                    </ng-template>
+
+                    <ng-container *ngIf="poDetViewValue.files.length===0 then thenBlock; else elseBlock"></ng-container>
+                    <ng-template #thenBlock>
+                      <td class="td-style-last"></td>
+                    </ng-template>
+                    <ng-template #elseBlock>
+                      <td class="td-style-last hideextra">
+                        <input id="{{poDetViewValue.poNumber}}" class="toggle input-checkbox" type="checkbox">
+                        <label for="{{poDetViewValue.poNumber}}" style="cursor: pointer;">Files</label>
+                        <div id="{{poDetViewValue.poNumber}}" class="expand">
+                          <section style="text-align: left;">
+                            <ng-container *ngFor="let file of poDetViewValue.files">
+                              {{file.docId}})
+                              <a (click)="onClickForFileDownload(file)" class="file-url" title="Click here to download"> {{file.docDisplayName}}</a>
+                              <br/>
+                            </ng-container>
+                          </section>
+                        </div>
+                      </td>
+                    </ng-template>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- end of table div -->
+
+            <!-- start nav for pagination -->
+            <nav aria-label="Page navigation example" style="float:right;cursor:pointer;" *ngIf="!errMsgShowFlag">
+
+              <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                  <a class="page-link" (click)="setPage(1)">First</a>
+                </li>
+                <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+                  <a class="page-link" (click)="setPage(pager.currentPage - 1)">Previous</a>
+                </li>
+                <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                  <a class="page-link" (click)="setPage(page)">{{page}}</a>
+                </li>
+                <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                  <a class="page-link" (click)="setPage(pager.currentPage + 1)">Next</a>
+                </li>
+                <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                  <a class="page-link" (click)="setPage(pager.totalPages)">Last</a>
+                </li>
+              </ul>
+            </nav>
+            <!-- end nav for pagination -->
+
+          </div>
+          <!--end of div for actn btn n faceted nav-->
+
+        </div>
+        <!--end of div row for actn btn n table grid-->
+        <!-- error msg div -->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="errMsgShowFlag">
+          <div class="alert alert-danger">
+            {{errorMsg}}&nbsp;
+            <button aria-label="Close" class="close" type="button" (click)="deleteResErrorMsgOnClick()">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <br/>
+          <br/>
+        </div>
+        <!-- end of error msg div -->
+      </div>
+      <!--end of div for actn btn n table(col-md-10)-->
+
+
+    </div>
+    <!--end of div row-->
+
+  </div>
+  <!-- end of div container -->
+</div>
+<!-- end of div page-container -->
+
+<!-- server-search modal -->
+<div *ngIf="serverSearchModal" class="overlay"></div>
+<!-- <div class="modal">I'm the modal window!</div> -->
+<div *ngIf="serverSearchModal" class="server-search-modal">
+  <!-- header div -->
+  <div class="modal-header">
+    <div> Full Search </div>
+    <div (click)="cancelServerSearchModal()" style="cursor: pointer;">x</div>
+  </div>
+  <!-- end of header div -->
+  <!-- start body div -->
+  <div class="modal-body">
+    <!-- start server search modal -->
+    <div class="form-group" style="margin-right: -15%;">
+      <!-- start form tag -->
+      <form [formGroup]="serverSearchModalFormGroup">
+        <div style="padding: 9px;width: 80%;border-radius: 10px;">
+          <span>Any</span>
+          <input type="text" formControlName="anyTypeSearch" style="width: 100%">
+        </div>
+        <span style="margin-left: 35%;color: #49007f;">OR</span>
+        <div style="padding: 9px;width: 80%;border-radius: 10px;">
+          <div style="width: 100%">
+            <span>P.O. Number</span>
+            <input type="text" formControlName="poNumber" style="width: 100%">
+          </div>
+          <div style="width: 100%">
+            <span>&nbsp;</span>
+          </div>
+          <div style="width: 100%">
+            <span>Vendor Name</span>
+            <input type="text" formControlName="vendorName" style="width: 100%">
+          </div>
+        </div>
+      </form>
+      <!-- end of form tag -->
+
+      <!-- hello -->
+    </div>
+    <!-- end of div -->
+    <!-- start button div --> 
+    <div>
+      <div style="float: right;margin-top: -2%;">
+        <button type="submit" class="btn btn-primary primary-button-style" style="margin-right: 33px;cursor:pointer;"
+          (click)="onClickSearchModalSubmit()" [disabled]="enableSearchModalBtn()">Search
+        </button>
+      </div>
+    </div>
+    <!-- end of button div -->
+  </div>
+  <!-- end of body div -->
+</div>
+<!--end of server-search-modal -->
+
+
+<ispl-busy-spinner *ngIf="busySpinner.busy">
+</ispl-busy-spinner>

@@ -1,0 +1,266 @@
+.login-form {
+  background-color: #F5F3EE;
+  float: none;
+  margin: 0 auto;
+  top: 85px;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  padding-left: 40px;
+  padding-right: 40px;
+  border: 1px solid #9E9E9E;
+  border-radius: 5px;
+  box-shadow: 1px 2px 15px #818181;
+}
+.button-style {
+  width: 100%;
+  height: 50px;
+  box-shadow: 0px 0px 10px #A5A5A5;
+  background-color: #74787a;
+  cursor: pointer;
+  border: #4d545a;
+}
+
+.button-style:hover {
+  background-color: #62686d;
+}
+
+/*end of font style - 24.01.18 */
+
+
+.login-title {
+  width: 100%;
+  height: 70px;
+  text-align: center;
+  color: #855010;
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 1px solid #BDBDBD; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-left: 1px solid #BDBDBD; /* red */
+}
+
+.custom-nav {
+  box-shadow: 0px 5px 10px #A5A5A5;
+  background-color: #cacac37a !important;
+  /* #e8eaee !important; */
+  /* background-color: #343740 !important;  -->19.01.18 */
+  opacity: 0.9;
+}
+
+.dropdown-menu {
+  background-color: #fff;
+  border-bottom: 5px solid #9e9fa0f5;
+  box-shadow: 0px 10px 20px #9C9C9C;
+}
+
+input {
+}
+
+input:focus {
+  border: 1px solid #0098DF;
+  box-shadow: 0 0 6px #78ABC4;
+}
+
+/* end of previous style of btn */
+.button-div-style {
+  margin-top: 40px;
+}
+
+/* start radio button css */
+/* start style for radio button*/
+
+ /*Box to contain form controls*/
+ .control {
+	font-size: 18px;
+	position: relative;
+	display: block;
+	margin-bottom: 15px;
+	padding-left: 30px;
+	cursor: pointer;
+}
+
+.control input {
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+}
+  
+
+.control__indicator {
+	position: absolute;
+	top: 2px;
+	left: 0;
+	width: 20px;
+	height: 20px;
+	background: #e6e6e6;
+}
+
+.control--radio .control__indicator {
+	border-radius: 50%;
+}
+ /* Hover and focus states */
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+	background: #ccc;
+}
+
+/* Checked state */
+.control input:checked ~ .control__indicator {
+	/*background: #0e647d;*/
+  background: rgb(10, 118, 214); 
+}
+
+/* Hover state whilst checked */
+.control:hover input:not([disabled]):checked ~ .control__indicator,
+.control input:checked:focus ~ .control__indicator {
+	background: rgb(10, 118, 214);  
+}
+
+/* Disabled state */
+.control input:disabled ~ .control__indicator {
+	pointer-events: none;
+	opacity: .6;
+	background: #e6e6e6;
+}
+
+/* Check mark */
+.control__indicator:after {
+	position: absolute;
+	display: none;
+	content: '';
+}
+
+/* Show check mark */
+.control input:checked ~ .control__indicator:after {
+	display: block;
+}
+
+/* Radio button inner circle */
+.control--radio .control__indicator:after {
+	top: 7px;
+	left: 7px;
+	width: 6px;
+	height: 6px;
+  border-radius: 50%;
+  background: rgb(175, 149, 149);
+  /* background: #fff; -->19.01.18 */
+}
+
+/* Disabled circle colour */
+.control--radio input:disabled ~ .control__indicator:after {
+	background: #7b7b7b;
+}
+
+/* end style for radio button*/
+/* end of radio button css */
+/*red asterick style*/
+.red-asterick{
+  color: #cc100c;
+  font-weight: bolder;
+}
+/*end of asterick style*/
+
+.custom-link{
+  color:#0275d8;
+}
+
+.custom-link:hover{
+  color: #014c8c;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.bgimg {
+  /* background-image: url('../../../../assets/images/background2.jpg'); */
+  background-image: url('../../../../assets/images/construction-worker.jpg');
+  padding-bottom: 169px;
+  background-size: cover;
+}
+
+/* start text align style */
+.text-align-style {
+  text-align:center;
+}
+/* end of text align style */
+/* start style of cursor-pointer */
+.cursor-pointer {
+  cursor: pointer;
+}
+/* end of style of cursor pointer */
+/* start style modal */
+ .modal {
+  background-color: rgba(0,0,0,0.5);
+  /* background: rgba(0,0,0,.15); */
+  display: block;
+  height: 100%;
+  left: 0px;
+  position: fixed;
+  top: 0px;
+  width: 108%;
+}
+.modal.open {
+ display: block;
+}
+.modal__footer {
+  height: 100px;
+}
+.modal__content,
+.modal__footer {
+  position: absolute;
+  width: 100%;
+}
+.modal__content {
+  bottom: 100px;
+  top: 100px;
+  overflow-y: auto;
+}
+.modal__footer {
+  bottom: 0;
+}
+.modal-header-style{  
+  text-align: center;
+  background: #eceeef;
+  padding: 19px;
+  display: flow-root;
+  line-height: 18px;
+  vertical-align: middle;
+  margin-top: 2%;
+  width: 85%;
+  height: 50%;
+  margin-left: 4%;
+}
+.modal-body-style {
+  text-align:center;
+  background: white;
+  color: black;
+  width: 85%;
+  height: 81%;
+  margin-left: 4%;
+}
+.modal-close-style {
+  float: right;
+  cursor: pointer;
+  margin-top: 0px;
+}
+.modal-header-font-style{
+  text-align:center;
+  color:brown;
+  font-size: 150%;
+    word-wrap: break-word;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+/* end of modal style */
+
+
+.captcha-custom-style {
+  text-align: center;
+  text-decoration: line-through;
+  background-image: url(../../../../assets/images/captcha-background.png);
+  color: white;
+  letter-spacing: 11px;
+  font-weight: bold;
+}

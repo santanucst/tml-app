@@ -1,0 +1,470 @@
+<div class="page-container">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="#/home">Home</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="#/home/podetview">Purchase Order Report</a>
+    </li>
+    <li class="breadcrumb-item active">
+      Invoice Details
+    </li>
+  </ol>
+
+  <!-- Write Your Code -->
+  <!-- start div for container -->
+  <div class="container col-lg-12 col-md-12 col-sm-12 col-xs-12" style="width:100%;">
+  <!-- start div for detailed search avlue -->
+  <div *ngIf="serverSearchArr.length > 0 || anyValue" style="margin-bottom: 10px;">
+    <span style="cursor: pointer;" class="searched-data">
+      <b>Detailed Searched Value:</b>
+      <ng-container *ngFor="let srvrsrchArrEl of serverSearchArr">
+        <span style="color: #1c2ad4;font-weight: 500; font-size: small;">{{srvrsrchArrEl.htmlLblName}}: </span>
+        <span style="color: black;font-weight: 500;font-size: small;">"{{srvrsrchArrEl.value}}"</span>
+      </ng-container>
+      <ng-container *ngIf="anyValue">
+        <span style="color: black;font-weight: 500;font-size: small;">"{{anyValue}}"</span>
+      </ng-container>
+    </span>
+  </div>
+  <!-- end div for detailed search value -->
+
+    <!--start search div -->
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="input-group" style="width:100%;">
+          &nbsp;
+        </div>
+      </div>
+      <div [formGroup]="searchFormGroup" class="input-group col-lg-6 col-md-6 col-sm-6 col-xs-12" style="float: right;">
+        <input type="search" class="form-control search-input" formControlName="gridSearch" placeholder="Search">
+        <span class="input-group-addon">
+          <i class="fa fa-search"></i>
+        </span>
+      </div>
+    </div>
+    <!-- end of search div -->
+
+
+    <!--start div for row-->
+    <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: 15px;">
+
+      <!--start div for faceted nav-->
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 faceted-nav" *ngIf="facetedDataDetails && facetedDataDetails.length > 0">
+        <!--start div for status-->
+        <ng-container *ngFor="let facetedheader of facetedDataDetails">
+          <ng-container *ngIf="facetedheader.groupFacets.length > 0">
+            <div class="row faceted-header" style="height:33px;">
+              <span class="label-faceted-header">{{facetedheader.groupDisp}}</span>
+            </div>
+            <div *ngFor="let facetedData of facetedheader.groupFacets">
+              <div style="padding: 5px;">
+                <input type="checkbox" [checked]="facetedData.facetChecked" [disabled]="!facetedData.facetEnabled" (click)="onClickFilter(facetedheader.groupName,facetedData.facetName,facetedData.facetChecked)"
+                />
+                <span>
+                  {{facetedData.facetName}}
+                </span>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+        <!--end div for status-->
+      </div>
+      <!-- end div for faceted nav -->
+
+      <!--start div for actn btn and table grid (col-md-10)-->
+      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+
+        <!--start div for row for actn btn n table grid-->
+        <div class="row">
+
+          <!--start div for showing faceted data-->
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="facetedArray.length!=0">
+            <div class="faceted-data-div" *ngFor="let fecetedNode of facetedArray" style="display:inline-block;margin: 4px;">
+              {{fecetedNode.facetedData}}
+            </div>
+            <br/>
+            <br/>
+          </div>
+          <!--end of div for showing faceted data-->
+
+          <!--start div for showing table n po number -->
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-left: 10px;">
+
+            <!--start po number div-->
+            <div class="row" style="padding-left: 15px;">
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <span class="hideextra">
+                  <b>PO Number:</b>&nbsp;&nbsp; {{poNo}}&nbsp;
+                </span>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <span class="hideextra">
+                  <b>PO Type:</b>&nbsp;&nbsp; {{poType}}&nbsp;
+                </span>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <span class="hideextra">
+                  <b>PO Date:</b>&nbsp;&nbsp; {{poDate|date: 'dd-MMM-yyyy'}}&nbsp;
+                </span>
+              </div>
+            </div>
+            <!--end of div for po number-->
+
+            <!--start form for invoiceDetailsFormGroup-->
+            <div>
+            <form [formGroup]="invoiceDetailsFormGroup" autocomplete="off">
+              <!--start div of row-->
+              <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-left: 30px;">
+                <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <b>Invoice Date</b>
+                </div>
+                <!--start div of fromDate-->
+                <span style="display: inline-block; padding-top: 9px;">From Date </span>
+                <div class="form-group col-xs-12 col-sm-5 col-md-4 col-lg-3" style="padding: 2px;display: inline-block;">
+                  <input type="date" class="form-control" formControlName="fromDate" #fromDate (change)="compareTwoDates('fromDate',fromDate.value,toDate.value)"
+                  />
+                  <div class="alert alert-danger" *ngIf="fromDateErr">
+                    <i class="fa fa-exclamation-circle"></i> From Date should be less than or equals to To Date!
+                  </div>
+                </div>
+                <!--end div for fromDate-->
+                <!--start div of toDate-->
+                <span style="display: inline-block; padding-top: 9px;">To Date </span>
+                <div class="form-group col-xs-12 col-sm-5 col-md-4 col-lg-3" style="padding: 2px;display: inline-block;">
+                  <input type="date" class="form-control" formControlName="toDate" #toDate (change)="compareTwoDates('toDate',fromDate.value,toDate.value)"
+                  />
+                  <div class="alert alert-danger" *ngIf="toDateErr">
+                    <i class="fa fa-exclamation-circle"></i> To Date should be greater than or equals to From Date!
+                  </div>
+                </div>
+                <!--end div for toDate-->
+                <!-- start div for switch button -->
+                <div style="margin-top: 11px;display: inline-block;">
+                  <!-- Small switch -->
+                  <div class="form-group">
+                    <span class="switch switch-sm">
+                      <input type="checkbox" class="switch" id="switch-sm" (click)="onClickSwitchButton(switchCheckboxVal)">
+                      <label style="padding-top: 4px;" for="switch-sm">
+                        With<ng-container *ngIf="!switchCheckboxVal">out</ng-container> date </label>
+                    </span>
+                  </div>
+                </div>
+                <!-- end of div for switch button -->
+
+                <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <b>Invoice Upload Date</b>
+                </div>
+                <!--start div of fromDate-->
+                <span style="display: inline-block; padding-top: 9px;">From Date </span>
+                <div class="form-group col-xs-12 col-sm-5 col-md-4 col-lg-3" style="padding: 2px;display: inline-block;">
+                  <input type="date" class="form-control" formControlName="uploadfromDate" #uploadfromDate (change)="uploadcompareTwoDates('uploadfromDate',uploadfromDate.value,uploadtoDate.value)"
+                  />
+                  <div class="alert alert-danger" *ngIf="uploadfromDateErr">
+                    <i class="fa fa-exclamation-circle"></i> From Date should be less than or equals to To Date!
+                  </div>
+                </div>
+                <!--end div for fromDate-->
+                <!--start div of toDate-->
+                <span style="display: inline-block; padding-top: 9px;">To Date </span>
+                <div class="form-group col-xs-12 col-sm-5 col-md-4 col-lg-3" style="padding: 2px;display: inline-block;">
+                  <input type="date" class="form-control" formControlName="uploadtoDate" #uploadtoDate (change)="uploadcompareTwoDates('uploadtoDate',uploadfromDate.value,uploadtoDate.value)"
+                  />
+                  <div class="alert alert-danger" *ngIf="uploadtoDateErr">
+                    <i class="fa fa-exclamation-circle"></i> To Date should be greater than or equals to From Date!
+                  </div>
+                </div>
+                <!--end div for toDate-->
+                <!-- start div for switch button -->
+                <div style="margin-top: 11px;display: inline-block;">
+                  <!-- Small switch -->
+                  <div class="form-group">
+                    <span class="switch switch-sm-upload">
+                      <input type="checkbox" class="switch" id="switch-sm-upload" (click)="onClickUploadSwitchButton(uploadswitchCheckboxVal)">
+                      <label style="padding-top: 4px;" for="switch-sm-upload">
+                        With<ng-container *ngIf="!uploadswitchCheckboxVal">out</ng-container> date </label>
+                    </span>
+                  </div>
+                </div>
+                <!-- end of div for switch button -->
+              </div>
+              <!-- end of div row -->
+            </form>
+            </div>
+            <!--end form for invoiceDetailsFormGroup-->
+
+            <!-- start div to show report view date n time -->
+            <div class="col-lg-12 col-md-12 col-xs-12">
+                <div style="float:left">
+                    <div class="button-holder">
+                        <button type="submit" class="btn btn-sm btn-style2" (click)="onClickDatesButton(fromDate.value,toDate.value,uploadfromDate.value,uploadtoDate.value)">
+                          View
+                        </button>
+                    </div>
+                </div>
+                <br/>
+                <div style="float:right">
+                  <span class="hideextra" style="float:right"><b>Report View Date:</b>&nbsp;&nbsp;
+                    {{invoiceViewDetails.processStartDateTime}}&nbsp;
+                  </span>
+                </div>
+              </div>
+              <!-- end of div to show report view date n time -->
+            <!-- start div to show report view date n time -->
+            <!-- <div class="col-lg-12 col-md-12 col-xs-12" style="float:right">
+              <span class="hideextra" style="float:right">
+                <b>Report View Date:</b>&nbsp;&nbsp; {{invoiceViewDetails.processStartDateTime}}&nbsp;
+              </span>
+            </div> -->
+            <!-- end of div to show report view date n time -->
+
+            <!-- start table div -->
+            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom: 15px;
+            overflow-x: scroll; overflow-y: hidden;">
+              <table class="table-style" style="text-align: center;">
+                <thead>
+                  <tr class="th-style">
+                    <!-- <td class="header-style-first">
+                      <input type="checkbox" [checked]="checkAll" (click)="selectAllCheck()" />
+                    </td> -->
+                    <td class="header-style-first hideextra">
+                      {{invoicedetailsViewHeader?.invoiceStatusRowNo}}
+                    </td>
+                    <td class="header-style hideextra" (click)="onClick(invoicedetailsViewHeader.invoiceStatusDesc)">
+                      {{invoicedetailsViewHeader?.invoiceStatusDesc}}
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.invoiceStatusDesc && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.invoiceStatusDesc && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == ''|| sortSelection.sortData != invoicedetailsViewHeader?.invoiceStatusDesc" class="fa fa-sort"></i>
+                    </td>
+
+                    <td class="header-style hideextra" (click)="onClick(invoicedetailsViewHeader.invoiceNumber)">
+                      {{invoicedetailsViewHeader?.invoiceNumber}}
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.invoiceNumber && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.invoiceNumber && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != invoicedetailsViewHeader?.invoiceNumber" class="fa fa-sort"></i>
+                    </td>
+                    <td class="header-style hideextra" (click)="onClick(invoicedetailsViewHeader.invoiceDate)">
+                      {{invoicedetailsViewHeader?.invoiceDate}}
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.invoiceDate && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.invoiceDate && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != invoicedetailsViewHeader?.invoiceDate" class="fa fa-sort"></i>
+                    </td>
+
+                    <!-- <td class="header-style hideextra" (click)="onClick(invoicedetailsViewHeader.invoiceAmount)">
+                      {{invoicedetailsViewHeader?.invoiceAmount}}
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.invoiceAmount && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.invoiceAmount && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != invoicedetailsViewHeader?.invoiceAmount" class="fa fa-sort"></i>
+                    </td> -->
+                    <td class="header-style hideextra" (click)="onClick(invoicedetailsViewHeader.invoiceMakerDateTime)">
+                      {{invoicedetailsViewHeader?.invoiceMakerDateTime}}
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.invoiceMakerDateTime && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.invoiceMakerDateTime && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != invoicedetailsViewHeader?.invoiceMakerDateTime" class="fa fa-sort"></i>
+                    </td>
+
+                    <td class="header-style hideextra" *ngIf="userType==='E'" (click)="onClick(invoicedetailsViewHeader.scanId)">
+                      {{invoicedetailsViewHeader?.scanId}}
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.scanId && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.scanId && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != invoicedetailsViewHeader?.scanId" class="fa fa-sort"></i>
+                    </td>
+
+                    
+                    <!-- <td class="header-style hideextra" *ngIf="userType==='E'" (click)="onClick(invoicedetailsViewHeader.scanDate)">
+                      {{invoicedetailsViewHeader?.scanDate}}
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.scanDate && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.scanDate && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != invoicedetailsViewHeader?.scanDate" class="fa fa-sort"></i>
+                    </td> -->
+
+                    <td class="header-style hideextra" *ngIf="userType==='E'" (click)="onClick(invoicedetailsViewHeader.invoiceAmount)">
+                      {{invoicedetailsViewHeader?.invoiceAmount}}
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.invoiceAmount && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.invoiceAmount && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != invoicedetailsViewHeader?.invoiceAmount" class="fa fa-sort"></i>
+                    </td>
+
+                    <!-- <td class="header-style hideextra" (click)="onClick(invoicedetailsViewHeader.poType)">
+                      {{invoicedetailsViewHeader?.poType}}
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.poType && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.poType && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != invoicedetailsViewHeader?.poType" class="fa fa-sort"></i>
+                    </td> -->
+
+                    <!-- <td class="header-style hideextra" (click)="onClick(invoicedetailsViewHeader.vendorName)">
+                      {{invoicedetailsViewHeader?.vendorName}}
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.vendorName && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.vendorName && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != invoicedetailsViewHeader?.vendorName" class="fa fa-sort"></i>
+                    </td> -->
+
+                    <td class="header-style hideextra" (click)="onClick(invoicedetailsViewHeader.totalCgst)">
+                      {{invoicedetailsViewHeader?.totalCgst}}
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.totalCgst && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.totalCgst && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != invoicedetailsViewHeader?.totalCgst" class="fa fa-sort"></i>
+                    </td>
+
+                    <td class="header-style hideextra" (click)="onClick(invoicedetailsViewHeader.totalSgst)">
+                      {{invoicedetailsViewHeader?.totalSgst}}
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.totalSgst && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.totalSgst && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != invoicedetailsViewHeader?.totalSgst" class="fa fa-sort"></i>
+                    </td>
+
+                    <td class="header-style hideextra" (click)="onClick(invoicedetailsViewHeader.totalIgst)">
+                      {{invoicedetailsViewHeader?.totalIgst}}
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.totalIgst && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.totalIgst && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != invoicedetailsViewHeader?.totalIgst" class="fa fa-sort"></i>
+                    </td>
+
+                    <td class="header-style hideextra" (click)="onClick(invoicedetailsViewHeader.totalAmount)">
+                      {{invoicedetailsViewHeader?.totalAmount}}
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.totalAmount && sortSelection.orderType == 'ASC'" class="fa fa-sort-asc"></i>
+                      <i *ngIf="sortSelection.sortData == invoicedetailsViewHeader?.totalAmount && sortSelection.orderType == 'DESC'" class="fa fa-sort-desc"></i>
+                      <i *ngIf="sortSelection.orderType == '' || sortSelection.sortData != invoicedetailsViewHeader?.totalAmount" class="fa fa-sort"></i>
+                    </td>
+                    
+                    <td class="header-style hideextra">
+                      {{invoicedetailsViewHeader?.docName}}
+                    </td>
+                    <td class="header-style hideextra">
+                      {{invoicedetailsViewHeader?.totalCreditNote}}
+                    </td>
+
+                    <td class="header-style-last hideextra">
+                      {{invoicedetailsViewHeader?.totalDebitNote}}
+                    </td>
+
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- style="background-color: #B3B3B3;color:#FFFFFF;" -->
+                  <tr class="tr-style" *ngFor="let invoiceViewValue of invoiceViewDetails.details
+              | isplSearch: searchFormGroup.value.gridSearch : invoicedetailsViewHeader;
+              let odd = odd; let even = even;" [ngClass]="{even: even, odd: odd }" style="height:70px;">
+                    <td class="td-style-first hideextra">
+                      <!-- <ng-container *ngFor="let iconel of iconarr;let i = index;">
+                          <i class="fa fa-square" [style.color]="(i+1) > (invoiceViewValue.invoiceStatus| slice:0:1) ? '#FB231C' : '#2CFF2C'"></i>
+                      </ng-container> -->
+                    <ng-container *ngFor="let iconel of iconarr;let i = index;">
+                      <!-- <i class="fa fa-square step-icon-size" [style.color]="(i+1) > (invoiceViewValue.invoiceStatus| slice:0:1) ? '#FB231C' : '#2CFF2C'"></i> -->
+                      <i class="fa fa-square step-icon-size" *ngIf="(invoiceViewValue.invoiceStatus| slice:1:2)==9"
+                      [style.color]="(i+1) > (invoiceViewValue.invoiceStatus| slice:0:1) ? '#5f5e5e30' : '#2CFF2C'"><!--grey(5f5e5e): green-->
+                      </i>
+                      <i class="fa fa-square step-icon-size" *ngIf="(invoiceViewValue.invoiceStatus| slice:1:2)!=9"
+                      [style.color]="(i+1) > (invoiceViewValue.invoiceStatus| slice:0:1) ? '#FB231C' : '#2CFF2C'"><!--red: green-->
+                      </i>
+                    </ng-container>
+                    <!-- <ng-container *ngIf="(invoiceViewValue.invoiceStatus| slice:0:1)=='5'"><i class="fa fa-smile-o" style="font-size:18px;"></i></ng-container> -->
+                    <ng-container *ngIf="(invoiceViewValue.invoiceStatus| slice:0:1)=='1'"><img src="assets/images/1.jpg" class="emoji-size"></ng-container>  
+                    <ng-container *ngIf="(invoiceViewValue.invoiceStatus| slice:0:1)=='2'"><img src="assets/images/2.jpg" class="emoji-size"></ng-container>  
+                    <ng-container *ngIf="(invoiceViewValue.invoiceStatus| slice:0:1)=='3'"><img src="assets/images/3.jpg" class="emoji-size"></ng-container>  
+                    <ng-container *ngIf="(invoiceViewValue.invoiceStatus| slice:0:1)=='4'"><img src="assets/images/4.jpg" class="emoji-size"></ng-container>  
+                    <ng-container *ngIf="(invoiceViewValue.invoiceStatus| slice:0:1)=='5'"><img src="assets/images/5.jpg" class="emoji-size"></ng-container>  
+                    <ng-container *ngIf="(invoiceViewValue.invoiceStatus| slice:0:1)=='6'"><img src="assets/images/6.jpg" class="emoji-size-thumbs-up"></ng-container>  
+                  </td>
+                    <td class="td-style hideextra">{{invoiceViewValue.invoiceStatusDesc}}</td>
+                    <td class="td-style hideextra">
+                      <span class="custom-link" title="Click here" (click)="onClickTransactionNumber(invoiceViewValue.transactionNumber,invoiceViewValue.poStatusDesc)">
+                        {{invoiceViewValue.invoiceNumber}}
+                      </span>
+                    </td>
+                    <td class="td-style hideextra">{{invoiceViewValue.invoiceDate|date: 'dd-MMM-yyyy'}}</td>
+                    <!-- <td class="td-style hideextra ">{{invoiceViewValue.invoiceAmount}}</td> -->
+                    <td class="td-style hideextra">{{invoiceViewValue.invoiceMakerDateTime}}</td>
+                    <td class="td-style hideextra" *ngIf="userType==='E'">{{invoiceViewValue.scanId}}</td>
+                    <!-- <td class="td-style hideextra" *ngIf="userType==='E'">{{invoiceViewValue.scanDate|date: 'dd-MMM-yyyy'}}</td> -->
+                    
+                    <td class="td-style hideextra" *ngIf="userType==='E'">{{invoiceViewValue.invoiceAmount}}</td>
+                    
+        
+                    <!-- <td class="td-style">{{invoiceViewValue.poType}}</td>
+                    <td class="td-style hideextra">{{invoiceViewValue.vendorName}}</td> -->
+                    <td class="td-style hideextra ">{{invoiceViewValue.totalCgst}}</td>
+                    <td class="td-style hideextra ">{{invoiceViewValue.totalSgst}}</td>
+                    <td class="td-style hideextra ">{{invoiceViewValue.totalIgst}}</td>
+                    <td class="td-style">{{invoiceViewValue.totalAmount}}</td>
+
+                    <ng-container *ngIf="invoiceViewValue.files.length===0 then thenBlock; else elseBlock"></ng-container>
+                    <ng-template #thenBlock>
+                      <td class="td-style"></td>
+                    </ng-template>
+                    <ng-template #elseBlock>
+                      <td class="td-style hideextra">
+                        <input id="{{invoiceViewValue.transactionNumber}}" class="toggle input-checkbox" type="checkbox">
+                        <label for="{{invoiceViewValue.transactionNumber}}" style="cursor: pointer;">Files</label>
+                        <div id="{{invoiceViewValue.transactionNumber}}" class="expand">
+                          <section style="text-align: left;">
+                            <ng-container *ngFor="let file of invoiceViewValue.files">{{file.docId}} .
+                              <!-- <a class="file-url" href="{{file.url}}" target="_blank"> {{file.docDisplayName}}</a> -->
+                              <a (click)="onClickForFileDownload(file)" class="file-url" title="Click here to download"> {{file.docDisplayName}}</a>
+                              <br/>
+                            </ng-container>
+                          </section>
+                        </div>
+                      </td>
+                    </ng-template>
+                    <ng-container *ngIf="invoiceViewValue.totalCreditNote > 0 then thenBlockOfTotalCreditNote; else elseBlockTotalCreditNote"></ng-container>
+                    <ng-template #thenBlockOfTotalCreditNote>
+                      <td class="td-style">
+                        <span class="custom-link" title="Click here" (click)="onClickTotalCreditNoteNumber(invoiceViewValue.totalCreditNote,invoiceViewValue.invoiceNumber)">
+                          <!-- {{invoiceViewValue.totalCreditNote}} -->View
+                        </span>
+                      </td>
+                    </ng-template>
+                    <ng-template #elseBlockTotalCreditNote>
+                      <td class="td-style hideextra">
+                      </td>
+                    </ng-template>
+                    <ng-container *ngIf="invoiceViewValue.totalDebitNote > 0 then thenBlockOfTotalDebitNote; else elseBlockTotalDebitNote"></ng-container>
+                    <ng-template #thenBlockOfTotalDebitNote>
+                      <td class="td-style-last">
+                        <span class="custom-link" title="Click here" (click)="onClickTotalDebitNoteNumber(invoiceViewValue.totalDebitNote,invoiceViewValue.invoiceNumber)">
+                          <!-- {{invoiceViewValue.totalCreditNote}} -->View
+                        </span>
+                      </td>
+                    </ng-template>
+                    <ng-template #elseBlockTotalDebitNote>
+                      <td class="td-style-last hideextra">
+                      </td>
+                    </ng-template>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- end of table div -->
+
+          </div>
+          <!--end of div for showing table n po number-->
+
+        </div>
+        <!--end of div row for actn btn n table grid-->
+        <!-- error msg div -->
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="errMsgShowFlag">
+          <div class="alert alert-danger">
+            {{errorMsg}}&nbsp;
+            <button aria-label="Close" class="close" type="button" (click)="deleteResErrorMsgOnClick()">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <br/>
+          <br/>
+        </div>
+        <!-- end of error msg div -->
+      </div>
+      <!--end of div for actn btn n table(col-md-10)-->
+
+    </div>
+    <!--end of div row-->
+
+  </div>
+  <!-- end of div container -->
+</div>
+<!-- end of div page-container -->
+
+<ispl-busy-spinner *ngIf="busySpinner.busy">
+</ispl-busy-spinner>

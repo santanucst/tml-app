@@ -1,0 +1,15 @@
+<div class="modal-header">
+  <div style="padding-right: 17%;padding-left: 36%;">
+    <span class="modal-title" style="color: #6f5312;font-weight: 600;font-size: 21px;">Information</span>
+  </div>
+    <button type="button" style="float:right;" class="close" aria-label="Close" (click)="onClickOk();">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+        <div style="text-align: center;"><i class="fa fa-check-circle" style="font-size:37px;color:#6f5312;"></i></div>
+    <p>{{modalMessage}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="onClickOk();">Ok</button>
+  </div>

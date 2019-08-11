@@ -1,0 +1,42 @@
+
+
+.bgimg {
+  background-image: url('../../../../assets/images/pipes.jpg');
+  background-size: cover;
+  /* padding-bottom: 110px;
+  margin-top: -54px; */
+}
+
+header {
+  color: white;
+  background: #1c262b;
+  padding: 19.2rem 0;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+@media (max-width: 43.75em) {
+  header {
+    padding: 2rem 0;
+  }
+}
+header h1 {
+  font-size: 3rem;
+  margin: 0 0 1rem;
+}
+@media (max-width: 43.75em) {
+  header h1 {
+    font-size: 2rem;
+  }
+}
+header h2 {
+  font-weight: 300;
+  font-size: 1.5rem;
+  margin: 0 0 1rem;
+}
+@media (max-width: 43.75em) {
+  header h2 {
+    font-size: 1.5rem;
+  }
+}

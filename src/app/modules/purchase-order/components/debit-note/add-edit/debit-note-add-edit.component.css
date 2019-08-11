@@ -1,0 +1,392 @@
+.page-container {
+    /* margin-top: 54px; */
+    overflow-x: hidden;
+    background-color: #dee5e8; 
+  }
+  
+  .title-style {
+    color: #1684e2;
+    font-weight: 500;
+    font-style: inherit;
+    float: right;
+  }
+  
+  h1.title-style {
+    font-size: 30px;
+  }
+  
+  .custom-form {
+    margin-right: 10px;    
+    padding-bottom: 10px;
+  }
+
+  .breadcrumb-custom {
+    border-bottom: 1px solid #DADADA;
+    box-shadow: 0px 2px 2px #E7E7E7;
+  }
+
+  .table-style {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    border: 1px solid #dee5e8 !important;
+    background-color: #dee5e8;
+  }
+  
+  .th-style {
+    background-color: #dbdada;
+    font-family: unset;
+    font-size: 13px;
+    color: #000000;
+    letter-spacing: 1px;
+    padding-left: 10px;
+    border: 1px solid #7B7B7B;
+    box-shadow: 0px 1px 5px #D1D1D1;
+    background-color: #b5b3b3;
+    /* 989090 */
+    height: 34px;
+  }
+  
+  .tr-style {
+    font-size: 13px;
+    font-family: unset;
+    background-color: #FFFFFF;
+    color : #69696B;
+    height: 50px;
+    box-shadow: 0px 1px 5px #CBCBCB;
+    border: 1px solid #BCBCBC;
+  }
+  
+  .td-style {
+    padding-left: 10px;
+    border-bottom: 1px solid #CACACA;
+    border-top: 1px solid #CACACA;
+    /*border-left: 1px solid #EFEFEF;*/
+  }
+  
+  .td-style-first {
+    padding-left: 10px;
+    border-bottom: 1px solid #CACACA;
+    border-top: 1px solid #CACACA;
+    border-left: 3px solid #0098DF;
+  }
+  
+  .td-style-last {
+    padding-left: 10px;
+    border-bottom: 1px solid #CACACA;
+    border-top: 1px solid #CACACA;
+    border-right: 1px solid #CACACA;
+  }
+  
+  .header-style {
+    padding-left: 10px;
+    border-bottom: 1px solid #a09f9f;
+    /* BCBCBC; */
+    border-top: 1px solid #a09f9f;
+    /* BCBCBC; */
+  }
+  
+  .header-style-first {
+    padding-left: 10px;
+    border-bottom: 1px solid #a09f9f;
+    /* BCBCBC; */
+    border-top: 1px solid #a09f9f;
+    /* BCBCBC; */
+    border-left: 1px solid #a09f9f;
+    /* BCBCBC; */
+  }
+  
+  .header-style-last {
+    padding-left: 10px;
+    border-bottom: 1px solid #a09f9f;
+    /* BCBCBC; */
+    border-top: 1px solid #a09f9f;
+    /* BCBCBC; */
+    border-right: 1px solid #a09f9f;
+    /* BCBCBC; */
+  }
+  
+  .even {
+    background-color: #FFFFFF;
+  }
+  
+  .even:hover {
+    background-color: #0098DF;
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+  
+  .odd {
+    /*background-color: #F4F4F4;*/
+    background-color: #FFFFFF;
+  }
+  .odd:hover {
+    background-color: #0098DF;
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+  
+  .table-hover {
+    background-color: #E9E9E9;
+    cursor: pointer;
+  }
+
+  /*end of style for table-div*/
+
+/* start div for hideextra */
+.hideextra { 
+  white-space: nowrap; 
+  overflow: hidden;
+   text-overflow:ellipsis;
+ }
+ /* end div for hide extra */
+
+ /* date picker height*/
+.date-picker-height {
+  height:38px;
+}
+/* end date picker height*/
+
+/*start search style*/
+.search-button {
+  background-color: #0275d8;
+  border-color: #0275d8;
+  height: 38px;
+  cursor: pointer;
+}
+/*end of search style  */
+
+/* start style for close button */
+.remove-item {
+  float: left;
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1;
+  content:'x';
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: 0;
+  transition: opacity .35s ease;
+  margin-top: -3px;
+}
+
+.even:hover .remove-item {
+  opacity: 1;
+  color: #000;
+}
+
+.odd:hover .remove-item {
+  opacity: 1;
+  color: #000;
+}
+/* button style */
+.primary-button-style {
+  width: 100%;
+  height: 40px;
+  box-shadow: 0px 0px 10px #A5A5A5;
+  background-color: #0085BE;
+  cursor: pointer;
+  margin-left: -15px;
+}
+
+.primary-button-style:hover {
+  background-color: #0073B0;
+}
+
+.default-button-style {
+  width: 100%;
+  height: 40px;
+  box-shadow: 0px 0px 10px #A5A5A5;
+  background-color: #666666;
+  color: #FFFFFF;
+  cursor: pointer;
+  margin-left: -15px;
+}
+
+.default-button-style:hover {
+  background-color: #514E4E;
+}
+/* end of button style */
+
+/* start style to align number right */
+.number-align-style{
+  text-align: right;
+}
+/* end of style to align number right */
+
+/*red asterick style*/
+.red-asterick{
+  color: #cc100c;
+  font-weight: bolder;
+}
+
+.red-coloured-label{
+color: #cc100c;
+}
+/*end of asterick style*/
+
+
+.custom-div{
+  background-color: #dee5e8;
+  padding-top: 12px;
+  margin-top: 21px;
+  border-radius: 3px;
+  position: relative;
+}
+
+.fieldset-auto-width {
+  display: inline-block;
+}
+
+.card {
+  background: #fff;
+  border-radius: 2px;
+  display: inline-block;
+  height: auto;
+  margin: 1rem;
+  position: relative;
+  width: auto;
+}
+
+.card-1 {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.card-1:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.alert-card1 {
+  /* box-shadow: 0 1px 3px rgba(169,68,66, 0.8), 0 1px 2px rgba(169,68,66, 0.8); */
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+
+.alert-card{
+  /* background: #a94442; */
+  border-radius: 2px;
+  display: inline-block;
+  height: auto;
+  margin: 1rem;
+  position: relative;
+  width: auto;
+}
+
+/* start style for radio button*/
+.control {
+position: relative;
+padding-top: 3px;
+margin-bottom: 0px;
+padding-left: 25px;
+padding-right: 20px;
+cursor: pointer;
+}
+.control input {
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+}
+  
+
+.control__indicator {
+	position: absolute;
+	top: 2px;
+	left: 0;
+	width: 20px;
+	height: 20px;
+	background: #e6e6e6;
+}
+
+.control--radio .control__indicator {
+	border-radius: 50%;
+}
+
+/* Hover and focus states */
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+	background: #ccc;
+}
+
+/* Checked state */
+.control input:checked ~ .control__indicator {
+	/*background: #0e647d;*/
+  background: rgb(10, 118, 214); 
+}
+
+/* Hover state whilst checked */
+.control:hover input:not([disabled]):checked ~ .control__indicator,
+.control input:checked:focus ~ .control__indicator {
+	background: rgb(10, 118, 214);  
+}
+
+/* Disabled state */
+.control input:disabled ~ .control__indicator {
+	pointer-events: none;
+	opacity: .6;
+	background: #e6e6e6;
+}
+
+/* Check mark */
+.control__indicator:after {
+	position: absolute;
+	display: none;
+	content: '';
+}
+
+/* Show check mark */
+.control input:checked ~ .control__indicator:after {
+	display: block;
+}
+
+/* Radio button inner circle */
+.control--radio .control__indicator:after {
+	top: 7px;
+	left: 7px;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: #fff;
+}
+
+/* Disabled circle colour */
+.control--radio input:disabled ~ .control__indicator:after {
+	background: #7b7b7b;
+}
+
+/* end style for radio button*/
+
+/* end style for radio button*/
+
+/* modal for division */
+
+/* start server search modal style */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 230%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 10;
+}
+
+.com-set-modal-style{
+  z-index: 16;
+  background: #FFF;
+  position: fixed;
+  top: 46%;
+  left: 43%;
+  height: 209px;
+  width: 402px;
+  margin-left: -107px;
+  margin-top: -125px;
+  border-radius: 4px;
+}
+/* modal for division */
+
+.number-align-header-style {
+  padding-top:7px;
+  font-weight: 600;
+}
+

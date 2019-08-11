@@ -1,0 +1,151 @@
+<div class="bgimg">    
+      <nav class="navbar fixed-top navbar-toggleable-md navbar-inverse bg-inverse" style="opacity: 0.9;">
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand" href="#">
+            <img src="assets/images/tata_logo.jpg" width="30" height="30" class="d-inline-block align-top" alt="TATA"> TATA Metaliks Ltd.
+          </a>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown" style="margin-left: 28px;">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" style="color : white;" href="#">Vendor Portal
+                  <span class="sr-only">(current)</span>
+                </a>
+              </li>
+            </ul>
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown nav-last-element">
+                <a class="nav-link" href="#" id="a" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-envelope"></i> support@ingress.biz
+                </a>
+              </li>
+            </ul>       
+
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown nav-last-element">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-globe"></i> Language
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#">English</a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </nav>
+
+  <div >
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 login-form">
+      <div class="login-title inline">
+        <!-- <h3 *ngIf="userType === 'employee'" > Login (Employee) </h3>
+        <h3 *ngIf="userType === 'vendor'" > Login (Vendor) </h3> -->
+        <h3> Login </h3>
+      </div>
+
+      <div class="alert alert-danger" role="alert" *ngIf="loginError && msgType != 'InfoOther'">
+        <strong>Login Error!</strong> {{ loginError }}
+      </div>
+
+      <div class="alert alert-info" role="alert" *ngIf="loginError && msgType === 'InfoOther'">
+        <strong>Info!</strong> {{ loginError }}
+      </div>      
+
+      <form class="view-form waiting" [formGroup]="loginForm" autocomplete="off" (ngSubmit)="loginSubmit()">
+        <div class="form-group" *ngIf="userType === 'vendor'">
+          <label for="name">GSTIN No/PAN No</label>
+          <div class="input-group">
+            <span class="input-group-addon">
+              <i class="fa fa-user"></i>
+            </span>
+            <input type="text" id="username" #userName class="form-control" formControlName="username" placeholder="GSTIN No/PAN No" required>
+          </div>
+          <div>
+            <div class="alert alert-danger" *ngIf="loginForm.get('username').hasError('required') && loginForm.get('username').touched">
+              <i class="fa fa-exclamation-circle"></i> GSTIN No/PAN No is required!
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" *ngIf="userType === 'employee'">
+            <label for="name">Personal No/User Id</label>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <i class="fa fa-user"></i>
+              </span>
+              <input type="text" id="username" #userName class="form-control" formControlName="username" placeholder="Personal No/User Id" required>
+            </div>
+            <div>
+              <div class="alert alert-danger" *ngIf="loginForm.get('username').hasError('required') && loginForm.get('username').touched">
+                <i class="fa fa-exclamation-circle"></i> Personal No/User Id is required!
+              </div>
+            </div>
+          </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-group">
+            <span class="input-group-addon">
+              <i class="fa fa-lock"></i>
+            </span>
+            <input type="password" id="password" class="form-control" formControlName="password" placeholder="Password" required>
+          </div>
+          <div class="alert alert-danger" *ngIf="loginForm.get('password').hasError('required') && loginForm.get('password').touched">
+            <i class="fa fa-exclamation-circle"></i> Password is required!
+          </div>
+        </div>
+
+        <div class="form-group button-div-style">
+          <button type="submit" class="btn btn-primary button-style" [disabled]="!loginForm.valid">
+            Login
+          </button>          
+        </div>
+        <div>
+          <span class="custom-link" style="float:left;" *ngIf="userType=='vendor'" (click)="onClickLinkRoute('D');">Disclaimer</span>
+          <span class="custom-link" style="float:right;" (click)="onClickLinkRoute('F');">Forgot Password?</span>
+        </div>
+        <br/>
+        <div style="text-align: center;" *ngIf="userType=='vendor'">
+          <span class="custom-link" (click)="onClickLinkRoute('S');">New User ?</span>
+        </div>
+      </form>
+      <br/>
+      <div style="text-align:center; padding-top: 40px;">Version: 2.1</div>
+    </div>
+  </div>
+</div>
+
+<ispl-busy-spinner *ngIf="busySpinner"></ispl-busy-spinner>
+
+
+<!-- modal -->
+<div class="modal" *ngIf=disclaimerFlag>
+  <!-- <span> -->
+    <div class="modal__header modal-header-style">
+      <span class="modal-header-font-style">PRE REQUISITES OF AUTOMATION</span>
+      <span class="modal-close-style" (click)="modalCrossClick()">X</span>
+    </div>
+    <div class="modal__content modal-body-style">
+      <div style="margin-top: 0px;text-align: left;">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>1. Account activation – </b>For activation of account and resetting of password on the e-Invoice portal, it is mandatory to provide email IDs of suppliers/service providers in TML vendor master. If the vendor master is not updated with all the email IDs, please get in touch with the Purchase department of TML to ensure the same is updated.</li>
+            <li class="list-group-item"><b>2. PO No.- </b>Each invoice should contain the PO Number issued by TML.</li>
+            <li class="list-group-item"><b>3. Other details in Invoice – </b>Invoice should contain all the data elements as per GST Act specification i.e. Invoice No (should not be more than 15 digits), Invoice Date, GST No. etc</li>
+            <li class="list-group-item"><b>4. Invoice should be printed and legible  – </b>Handwritten invoice will be treated as invalid. All Invoices should be computer printed using a printer that generates a clearly legible print. This has a direct bearing on OCR.</li>
+            <li class="list-group-item"><b>5. No. of pages for Invoice - </b>Invoice should not be more than one page long.</li>
+            <li class="list-group-item"><b>6. One Invoice for One PO - </b>Separate Invoices should be raised for each PO. A single invoice cannot be raised for multiple POs.</li>
+            <li class="list-group-item"><b>7. Submission of invoice through Portal - </b>Supplier/ Service provider has to select the PO data on the portal and upload the soft copy of the invoice through the portal.</li>
+            <li class="list-group-item"><b>8. Invoice data should match with PO data - </b> In case of any mismatch between uploaded invoice and PO data selected, Supplier/ Service provider will not be able to submit the invoice. In other words, all PO data like Rate, HSN Code, PO No, GSTN No, etc. should match with the data mentioned in the Invoice. In case of any discrepancies, the portal will not accept the invoice for submission.</li>
+            <li class="list-group-item"><b>9. Restrictions – </b>Please do not underline PO number, GST No, Invoice No, invoice date etc. in the invoice.</li>
+          </ul>
+        </div>
+        <div style="text-align: center;margin-top: 9px;padding-bottom: 10px;">
+            <button type="submit" class="btn btn-primary" style="cursor:pointer;" (click)="modalCrossClick();">
+                Close
+            </button>
+        </div>
+      </div>
+    <!-- </span> -->
+</div>
+

@@ -1,0 +1,466 @@
+    /* font style - 24.01.18 */
+    .navbar-brand {
+        color : #545452;
+      }
+      .navbar-brand:hover {
+        color : #545452;
+      }
+      .navbar-nav{
+        color : #b3aa99;
+      }
+      
+      .navbar-inverse .navbar-nav .nav-link {
+        color: #8e897f;
+      }
+      
+      .navbar-inverse .navbar-nav .nav-link:focus, .navbar-inverse .navbar-nav .nav-link:hover {
+        color: #656060;
+      }
+      
+      .button-style {
+        width: 100%;
+        height: 50px;
+        box-shadow: 0px 0px 10px #A5A5A5;
+        background-color: #74787a;
+        cursor: pointer;
+        border: #4d545a;
+      }
+      
+      .button-style:hover {
+        background-color: #62686d;
+      }
+      
+      /*end of font style - 24.01.18 */
+      
+      
+      .login-title {
+        width: 100%;
+        height: 70px;
+        color: #855010;
+      }
+      
+      .ng-valid[required], .ng-valid.required  {
+        border-left: 1px solid #BDBDBD; /* green */
+      }
+      
+      .ng-invalid:not(form)  {
+        border-left: 1px solid #BDBDBD; /* red */
+      }
+      
+      .custom-nav {
+        box-shadow: 0px 2px 4px 0px #a5a5a5e3;
+        background-color: #cacac37a !important;
+        /* #e8eaee !important; */
+        /* background-color: #343740 !important;  -->19.01.18 */
+        opacity: 0.9;
+      }
+      
+      .dropdown-menu {
+        background-color: #fff;
+        border-bottom: 5px solid #9e9fa0f5;
+        box-shadow: 0px 10px 20px #9C9C9C;
+      }
+      
+      /* .input {
+      }
+       */
+      input:focus {
+        border: 1px solid #0098DF;
+        box-shadow: 0 0 6px #78ABC4;
+      }
+      
+      /* previous style of btn */
+      /* .button-style {
+        width: 100%;
+        height: 50px;
+        box-shadow: 0px 0px 10px #A5A5A5;
+        background-color: #0085BE;
+        cursor: pointer;
+      }
+      
+      .button-style:hover {
+        background-color: #0073B0;
+      } */
+      /* end of previous style of btn */
+      .button-div-style {
+        margin-top: 14px;
+        margin-left:182px;
+      }
+      
+      /* start radio button css */
+      /* start style for radio button*/
+      
+       /*Box to contain form controls*/
+       .control {
+          font-size: 18px;
+          position: relative;
+          display: block;
+          margin-bottom: 15px;
+          padding-left: 30px;
+          cursor: pointer;
+      }
+      
+      .control input {
+          position: absolute;
+          z-index: -1;
+          opacity: 0;
+      }
+        
+      
+      .control__indicator {
+          position: absolute;
+          top: 2px;
+          left: 0;
+          width: 20px;
+          height: 20px;
+          background: #e6e6e6;
+      }
+      
+      .control--radio .control__indicator {
+          border-radius: 50%;
+      }
+       /* Hover and focus states */
+      .control:hover input ~ .control__indicator,
+      .control input:focus ~ .control__indicator {
+          background: #ccc;
+      }
+      
+      /* Checked state */
+      .control input:checked ~ .control__indicator {
+          /*background: #0e647d;*/
+        background: rgb(10, 118, 214); 
+      }
+      
+      /* Hover state whilst checked */
+      .control:hover input:not([disabled]):checked ~ .control__indicator,
+      .control input:checked:focus ~ .control__indicator {
+          background: rgb(10, 118, 214);  
+      }
+      
+      /* Disabled state */
+      .control input:disabled ~ .control__indicator {
+          pointer-events: none;
+          opacity: .6;
+          background: #e6e6e6;
+      }
+      
+      /* Check mark */
+      .control__indicator:after {
+          position: absolute;
+          display: none;
+          content: '';
+      }
+      
+      /* Show check mark */
+      .control input:checked ~ .control__indicator:after {
+          display: block;
+      }
+      
+      /* Radio button inner circle */
+      .control--radio .control__indicator:after {
+          top: 7px;
+          left: 7px;
+          width: 6px;
+          height: 6px;
+        border-radius: 50%;
+        background: rgb(175, 149, 149);
+        /* background: #fff; -->19.01.18 */
+      }
+      
+      /* Disabled circle colour */
+      .control--radio input:disabled ~ .control__indicator:after {
+          background: #7b7b7b;
+      }
+      
+      /* end style for radio button*/
+      /* end of radio button css */
+      /*red asterick style*/
+      .red-asterick{
+        color: #cc100c;
+        font-weight: bolder;
+      }
+      /*end of asterick style*/
+      
+      .custom-link{
+        color:#0275d8;
+        text-align: center; 
+      }
+      
+      .custom-link:hover{
+        color: #014c8c;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    
+   
+      .manage-profile-form {
+        padding: 30px 30px;
+      }
+    
+      .default-button-style {
+        /* width: 100%;
+        height: 40px; */
+        box-shadow: 0px 0px 10px #A5A5A5;
+        background-color: #666666;
+        color: #FFFFFF;
+        cursor: pointer;
+        margin-left: 29px;
+      }
+      
+      .default-button-style:hover {
+        background-color: #514E4E;
+      }
+    
+      
+  .login-form {
+    background-color: #F5F3EE;
+    float: none;
+    margin: 0 auto;
+    top: 150px;
+    padding-top: 40px;
+    padding-bottom: 46px;
+    padding-left: 14px;
+    padding-right: 14px;
+    border: 1px solid #9E9E9E;
+    border-radius: 5px;
+    box-shadow: 1px 2px 15px #818181;
+  }
+
+  .btn-primary{
+    margin-left: 41px;
+  }
+
+  .button-back{
+    display: block;
+    position: relative;
+    float: left;
+    width: 79px;
+    padding: 0;
+   
+    /* margin-left: 17px; */
+    /* margin-bottom: 9px; */
+    /* font-weight: 600; */
+    text-align: center;
+    line-height: 31px;
+    /* color: #FFF; */
+    color: #292b2c;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+    border-radius: 5px;
+    transition: all 0.2s ;
+  }
+
+.button-next:disabled{
+  background-color: #7f776ac7;
+}
+.button-next:disabled:hover{
+  background-color: #6d6253c7;
+}
+.button-next {
+  display: block;
+  position: relative;
+  /* float: left; */
+  width: 79px;
+  padding: 0;
+  /* margin-bottom: 9px; */
+  margin-left: 81px;
+  /* margin: 10px 20px 10px 0; */
+  /* font-weight: 600; */
+  text-align: center;
+  line-height: 31px;
+  /* color: #FFF; */
+  color: #dcd4d1;
+  background-color: #6d5c4e;
+  border-color: #ccc;
+  border-radius: 5px;
+  transition: all 0.2s ;
+}
+
+.button-next:hover{
+  background-color: #614a37;
+}
+
+.button-next:focus, .button-back:focus{
+  outline:none;
+}
+
+.fa-chevron-circle-right {
+  margin-left: 3px;
+  font-size: 16px;
+}
+
+.fa-chevron-circle-left {
+  margin-left: -3px;
+  font-size: 16px;
+ 
+}
+
+
+/* defaults */
+
+html,
+body {
+	height: 100%;
+}
+
+html {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	font-size: 24px;
+}
+
+*,
+*:before,
+*:after {
+	-moz-box-sizing: inherit;
+	box-sizing: inherit;
+}
+
+body {
+	margin: 0;
+	line-height: 1.5;
+	background-color: #e7e7e7;
+	font-family: Roboto, Helvectica, Arial, sans-serif;
+	color: #333;
+}
+
+
+/* headers */
+
+h1 {
+	font-family: "Roboto Slab", Times, "Times New Roman", serif;
+	font-size: 2em;
+}
+
+
+/* form elements */
+
+label {
+	display: block;
+}
+
+select,
+textarea,
+input {
+	max-width: 100%;
+	padding: 0;
+	margin: 0;
+	font-family: inherit;
+	font-weight: inherit;
+	font-size: inherit;
+	color: inherit;
+}
+
+input[type=submit] {
+	border: none;
+	cursor: pointer;
+}
+
+
+/* vertical align snippet */
+
+.va-cont {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+	height: 100%;
+}
+
+.va-inn {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+
+/* styles */
+
+.form-container {
+	width: 80%;
+	padding: 10px;
+	margin: auto;
+}
+
+.form-heading {
+	margin-top: 0;
+	margin-bottom: 1.2em;
+	text-align: center;
+}
+
+.form-heading-highlight {
+	color: #009688;
+}
+
+.form-row {
+	position: relative;
+	margin-top: 30px;
+}
+
+.form-label {
+	position: absolute;
+	top: 17px;
+  left: 10px;
+  margin-top: -10px;
+	color: #999;
+	cursor: text;
+	transition: all .15s ease-in-out 0s;
+}
+
+
+.form-textbox,
+.form-submit {
+	width: 100%;
+  padding: 20px;
+  padding-left: 10px;
+  height: 9px;
+  margin-bottom: 23px;
+}
+
+.form-textbox {	
+	box-shadow: inset 0 0 10px rgba(0,0,0,.1);
+}
+
+.form-textbox:focus ~ .form-label,
+.form-textbox:valid ~ .form-label {
+	top: -1.5em;
+	left: 0;
+  font-size: .978em;
+  color: #524735;
+  /* font-size: 1.063em; */
+  /* font-size:20px; */
+  /* color: inherit; */
+  font-weight: 600;
+	cursor: pointer;
+}
+
+.form-submit {
+	background-color: #009688;
+	font-weight: 700;
+	color: #fff;
+	transition: opacity .15s ease-in-out 0s;
+}
+
+.form-submit:hover {
+	opacity: .75;
+}
+
+.fa-repeat{
+  color: black;
+  margin-right: 3px;
+}
+
+/* custom info-alert-div style */
+.custom-alert-div-style{
+  background-color: #f2dede;
+  border-color: #ebcccc;
+  color: #a94442;
+}
+.custom-info-div-style{
+  background-color: #d9edf7;
+  border-color: #bcdff1;
+  color: #31708f;
+}
+.bgimg {
+  background-image: url('../../../../../../assets/images/background3.jpg');
+  padding-bottom: 489px;
+  background-size: cover;
+}

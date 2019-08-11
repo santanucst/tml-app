@@ -1,0 +1,48 @@
+<nav class="navbar fixed-top navbar-toggleable-md navbar-inverse bg-inverse">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="#">
+    <img src="assets/images/tata_logo.jpg" width="30" height="30" class="d-inline-block align-top" alt="TATA"> TATA Metaliks Ltd.
+  </a>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown" style="margin-left: 28px;">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" style="color : white;" href="#">Vendor Portal
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown nav-last-element">
+          <a class="nav-link" href="#" id="a" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-envelope"></i> support@ingress.biz
+          </a>
+       </li>
+    </ul>     
+
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown nav-last-element">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-globe"></i> Language
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">English</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!-- <div class="bgimg"> -->
+
+<!-- </div> -->
+
+<header class="bg-image">
+  <div class="container">
+    <h1>Welcome</h1>
+    <h2 style="display:inline;" class="custom-link" (click)="redirectToLogin('vendor');"> Vendor Login</h2> <h2 style="display:inline;"> | </h2> <h2 class="custom-link" style="display:inline;" (click)="redirectToLogin('employee');"> Employee Login </h2>
+  </div>
+</header>
+

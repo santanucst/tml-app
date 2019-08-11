@@ -1,0 +1,980 @@
+<div class="page-container">
+  <div>
+    <ol class="breadcrumb breadcrumb-custom">
+      <li class="breadcrumb-item">
+        <a href="#/home">
+          <i class="fa fa-home"></i> Home </a>
+      </li>
+      <li class="breadcrumb-item active">{{title}}</li>
+    </ol>
+  </div>
+  <!-- <div class="title-style">
+    <h1 class="title-style">{{title}}</h1>
+  </div> -->
+
+  <!--start div for invoice add -->
+  <div>
+
+    <!-- start div for container -->
+    <div class="container col-lg-12 col-md-12 col-sm-12 col-xs-12" style="width:100%;">
+
+      <!--start form-->
+      <form [formGroup]="invoiceAddEditFormGroup" autocomplete="off" (ngSubmit)="invoiceAddSubmit()">
+        <!--start div for custom-form-->
+        <div class="row custom-form">
+
+          <!-- start div card for plantType radio button  -->
+         
+          <!-- end div card for plantType  -->
+
+          <!-- error msg div for Vendor GSTIN Not -->
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 alert-card alert-card1 alert alert-danger" *ngIf="codeDetError && code== ''">
+            No deatails Found.
+          </div>
+          <!-- end of error msg div for Vendor GSTIN No -->
+
+
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 card card-1" style="padding-top: 10px;margin-top: 0px;" *ngIf="vendorBoolean && code">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="float:left;">
+              <label class="font-style">Vendor GSTIN No:&nbsp;&nbsp;
+                <b>{{vendorGstInNo}}</b>&nbsp;
+                <!-- <span (click)="onVendorCodeChange()">
+                      <i class="fa fa-pencil" title="Change Vendor Code" style="font-size: 18px; cursor:pointer;color:#285cf0"></i>
+                    </span> -->
+              </label>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="float:left;">
+              <label class="font-style">Vendor PAN No:&nbsp;&nbsp;
+                <b>{{vendorPanNo}}</b>&nbsp;
+                <!-- <span (click)="onVendorCodeChange()">
+                        <i class="fa fa-pencil" title="Change Vendor Code" style="font-size: 18px; cursor:pointer;color:#285cf0"></i>
+                      </span> -->
+              </label>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="float: right;">
+              <label class="font-style">Vendor Code:&nbsp;&nbsp;
+                <b>{{code}}</b>&nbsp;
+                <span (click)="onVendorCodeChange()" *ngIf="userType === 'E'">
+                  <i class="fa fa-pencil" title="Change Vendor Code" style="font-size: 18px; cursor:pointer;color:#285cf0"></i>
+                </span>
+              </label>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="float: right;">
+              <label class="font-style">Vendor Name:&nbsp;&nbsp;
+                <b>{{vendorName}}</b>&nbsp;
+                <!-- <span (click)="onVendorCodeChange()" *ngIf="userType === 'E'">
+                  <i class="fa fa-pencil" title="Change Vendor Code" style="font-size: 18px; cursor:pointer;color:#285cf0"></i>
+                </span> -->
+              </label>
+            </div>
+          </div>
+
+          <!-- error msg div for Vendor GSTIN Not -->
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 alert-card alert-card1 alert alert-danger" *ngIf="vendorGstInNoError && vendorBoolean === true && code">
+            Vendor GSTIN No and Vendor Pan No not found. Please contact TML Purchase Department.
+          </div>
+          <!-- end of error msg div for Vendor GSTIN No -->
+
+          <!-- error msg div for Company GSTIN Not -->
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 alert-card alert-card1 alert alert-danger" *ngIf="companyGstinNoError">
+            Company GSTIN No not found.
+          </div>
+          <!-- end of error msg div for company GSTIN No -->
+
+
+          <!-- start div for Official Document No-->
+          <div [hidden]="vendorBoolean" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12 card card-1" style="padding-top: 10px;margin-top:0px;padding-bottom: 10px;">
+            <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="vendorBoolean === false">
+              <label class="font-style">Search Vendor Code</label>
+              <div class="input-group input-group-sm search-div" style="float: left;">
+                <input type="text" class="form-control font-style custom-field-height" #vendorCode placeholder="Enter Your Vendor Code" [disabled]="companyGstinNoError || division == '' "
+                  (keyup)="onVendorCodeKeyUp(vendorCode.value);" />
+                <span class="input-group-btn custom-field-height">
+                  <button class="btn btn-primary search-button" type="button" [disabled]="vendorCodeError || companyGstinNoError || division == '' "
+                    (click)="onVendorCodeSearch(vendorCode.value);">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </button>
+                </span>
+              </div>
+              <div style="display: inline-block;">
+                <span *ngIf="vendorCodeError" style="color: #cc100c">
+                  <i class="fa fa-exclamation-circle"></i> {{vendorCodeErrorDesc}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <!--end div for Official Document No-->
+
+          <!-- start of ng-container to show/hide all field according to vendor code  -->
+          <fieldset [disabled]="(vendorBoolean == false && code == '' && companyGstinNoError) || vendorGstInNoError"
+            class="col-xs-12 col-sm-12 col-md-12 col-lg-12 card card-1" style="padding-top: 10px;margin-top: 0px;">
+
+            <!-- <div [hidden]="vendorBoolean === false && code === ''"> -->
+            <!-- start div for file upload -->
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="invoiceFilesArr.length === 0">
+              <div class="form-group col-xs-12 col-sm-8 col-md-8 col-lg-6" style="display: inline-block;padding-left: 0px;">
+                <label class="font-style" for="imageFile">Credit Note Upload</label>
+                <label class="red-coloured-label font-style">(max size 10 mb)</label>
+                <input type="file" #invoiceDoc (change)="fileChange($event,'CR_NOTE')" accept=".pdf,.png,.jpg,.jpeg,.bmp" class="font-style" />
+              </div>
+              <div style="display: inline-block;padding-left:0px;" class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
+                <button class="btn btn-success font-style custom-field-height" style="cursor:pointer;font-size: 12px;" [disabled]="!invoiceDoc.value || invoiceFileErrFlag"
+                  (click)="resetFileInput('CR_NOTE');">Upload</button>
+              </div>
+            </div>
+            <!-- end of div for file upload -->
+
+            <!-- error msg div for file format -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="invoiceFileErrFlag">
+              <div class="alert alert-danger">
+                {{fileErrMsg}}
+                <!-- &nbsp;
+              <button aria-label="Close" class="close" type="button" (click)="deleteResErrorMsgOnClick()">
+                <span aria-hidden="true">×</span>
+              </button> -->
+              </div>
+              <br />
+              <br />
+            </div>
+            <!-- end of error msg div for file format -->
+
+            <!-- invoice file error msg div -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="invoiceFileSubmitError">
+              <div class="alert alert-danger">
+                {{invoiceFileSubmitErrorMsg}} &nbsp;
+                <button aria-label="Close" class="close" type="button" (click)="deleteResErrorMsgOnClick('invoice')">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+            </div>
+            <!-- end of invoice file error msg div -->
+
+
+            <!--start div for show files-->
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="invoiceFilesArr.length!=0">
+              <label class="font-style">Uploaded Credit Note</label>
+              <br />
+              <ng-container *ngFor="let invFile of invoiceFilesArr">
+                <!-- <a href="{{invFile.fileUrl}}" style="float:left" target="_blank">{{invFile.fileName}}</a>&nbsp;&nbsp; -->
+
+                <a (click)="onClickForFileDownload(invFile)" class="file-url font-style" title="Click here to download">{{invFile.fileName}}</a>&nbsp;&nbsp;
+
+                <span style="float:left" class="close font-style" aria-hidden="true" (click)="deleteFiles('CR_NOTE',invFile.fileName);">&nbsp;×</span>
+                <br />
+              </ng-container>
+            </div>
+            <!--end div for show files-->
+          </fieldset>
+          <!-- end of ng-container to show/hide all field according to vendor code  -->
+
+          <!-- start ng-container to show/hide the other field according to invoice file  -->
+          <fieldset [disabled]="invoiceFilesArr.length===0" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 card card-1"
+          style="padding-top: 10px;height: 100%;margin-top: 0px;">
+
+            <!--start div for PoNo-->
+            <div class="form-group col-xs-12 col-sm-4 col-md-2 col-lg-2" style="display:inline-block;">
+              <label class="font-style" for="poNoLabel">P.O. No</label>
+              <select class="custom-select col-xs-12 col-sm-4 col-md-2 col-lg-2 font-style custom-field-height" style="height: 30px;" formControlName="poNo" (change)="onChangePONo($event.target.value);"
+                required>
+                <option *ngFor="let poNo of poNoDropDownVal" value="{{ poNo.key }}">{{ poNo.value }}
+                </option>
+              </select>
+              <!--start div for P.O. No required alert-->
+              <span *ngIf="invoiceAddEditFormGroup.get('poNo').hasError('required') && invoiceAddEditFormGroup.get('poNo').touched"
+                style="color: #cc100c">
+                <i class="fa fa-exclamation-circle"></i> P.O. No is required!
+              </span>
+              <!--end div for P.O. No required alert-->
+            </div>
+            <!--end of div PoNo-->
+
+             <!-- start div for P.O. Date-->
+             <div class="form-group col-xs-12 col-sm-4 col-md-2 col-lg-2" style="display:inline-block;">
+              <label class="font-style">P.O. Date</label>
+              <input type="date" [value]="poDate" class="form-control custom-field-height font-style" style="letter-spacing: 0px;font-family: inherit;font-weight: 600;font-size: 12px;" readonly />
+            </div>
+            <!--end div for P.O. Date -->
+
+            <!--start div for PoNo-->
+            <fieldset class="form-group col-xs-12 col-sm-4 col-md-2 col-lg-2" style="display:inline-block;" [disabled]="!selectedPONo">
+              <label class="font-style">Invoice No</label>
+              <select class="custom-select col-xs-12 col-sm-4 col-md-2 col-lg-2 font-style custom-field-height" style="height: 30px;" formControlName="invoiceNo" (change)="onChangeInvoiceNo($event,$event.target.value);"
+                required>
+                <option *ngFor="let invNo of invoiceNoDropDownVal" value="{{ invNo.value }}">{{ invNo.key }}
+                </option>
+              </select>
+              <!--start div for Invoice No required alert-->
+              <span *ngIf="invoiceAddEditFormGroup.get('invoiceNo').hasError('required') && invoiceAddEditFormGroup.get('invoiceNo').touched"
+                style="color: #cc100c">
+                <i class="fa fa-exclamation-circle"></i> Invoice No is required!
+              </span>
+              <!--end div for Invoice No required alert-->
+            </fieldset>
+            <!--end of div PoNo-->
+
+            <!-- start div for P.O. Date-->
+            <div class="form-group col-xs-12 col-sm-4 col-md-2 col-lg-2" style="display:inline-block;">
+              <label class="font-style">Invoice Date</label>
+              <input type="date" [value]="invoiceDate" class="form-control custom-field-height font-style" style="letter-spacing: 0px;font-family: inherit;font-weight: 600;font-size: 12px;" readonly />
+            </div>
+            <!--end div for P.O. Date -->
+
+            <!--start div Head Name-->
+            <div class="form-group col-xs-12 col-sm-4 col-md-2 col-lg-2" style="display:inline-block;" *ngIf="(poType === 'ZRDS' || poType === 'ZCDS') || ((poType === 'ZC' || poType === 'ZR' || poType === 'ZI') && servicePOFlag)"
+              hidden>
+              <label class="font-style">Head Name</label>
+              <input type="text" class="form-control custom-field-height font-style" style="letter-spacing: 0px;font-family: inherit;font-weight: 600;font-size: 12px;" [value]="headName" formControlName="headName" readonly>
+            </div>
+            <!--end of div Head Name-->
+
+
+            <!--start div invoice no[maxlength]="creditNoteLength" -->
+            <div class="form-group col-xs-12 col-sm-4 col-md-2 col-lg-2" style="display:inline-block;">
+              <label class="font-style">Credit Note No</label>
+              <input type="text" class="form-control custom-field-height font-style" formControlName="creditNoteNumber" style="letter-spacing: 0px;font-family: inherit;font-weight: 600;font-size: 12px;" [maxlength]="drcrnoteLength"
+                required>
+              <!--start div for Credit Note No required alert-->
+              <span *ngIf="invoiceAddEditFormGroup.get('creditNoteNumber').hasError('required') && invoiceAddEditFormGroup.get('creditNoteNumber').touched"
+                style="color: #cc100c">
+                <i class="fa fa-exclamation-circle"></i> Credit Note No is required!
+              </span>
+              <!--end div for Credit Note No required alert-->
+            </div>
+            <!--end of div invoice no-->
+
+            <!-- start div for Invoice Date-->
+            <div class="form-group col-xs-12 col-sm-4 col-md-2 col-lg-2" style="display:inline-block;">
+              <label class="font-style">Credit Note Date</label>
+              <input type="date" class="form-control custom-field-height font-style" formControlName="creditNoteDate" style="letter-spacing: 0px;font-family: inherit;font-weight: 600;font-size: 12px;" (change)="onChangeCreditNoteDate($event.target.value)"
+                required />
+              <!--start div for  Credit Note Date required alert-->
+              <span *ngIf="invoiceAddEditFormGroup.get('creditNoteDate').hasError('required') && invoiceAddEditFormGroup.get('creditNoteDate').touched"
+                style="color: #cc100c">
+                <i class="fa fa-exclamation-circle"></i> Credit Note Date is required!
+              </span>
+              <!--end div for  Credit Note Date required alert-->
+
+              <!--start div for Credit Note Date Less Than Invoice date  alert-->
+              <div *ngIf="creditNoteDateError" style="color: #cc100c">
+                <i class="fa fa-exclamation-circle"></i> {{creditNoteDateErrorDesc}}
+              </div>
+              <!--end div for Credit Note Date Less Than Invoice date alert-->
+            </div>
+            <!--end div for Invoice Date -->
+            
+
+            <!-- start div for Total Invoice Amount-->
+            <div class="form-group col-xs-12 col-sm-4 col-md-2 col-lg-2" style="display:inline-block;">
+              <label class="font-style">Total Credit Note Amount</label>
+              <input type="text" class="form-control number-align-style custom-field-height font-style" style="letter-spacing: 0px;font-family: inherit;font-weight: 600;font-size: 12px;" value="{{totalInvoiceAmount | number:'1.2-2'}}"
+                formControlName="creditNoteAmount" readonly />
+            </div>
+            <!--end div for Total Invoice Amount -->
+
+            <!-- start div for Total CGST Amount-->
+            <div class="form-group col-xs-12 col-sm-4 col-md-2 col-lg-2" style="display:inline-block;">
+              <label class="font-style">Total CGST Amount</label>
+              <input type="text" class="form-control number-align-style custom-field-height font-style" style="letter-spacing: 0px;font-family: inherit;font-weight: 600;font-size: 12px;" value="{{totalCgstAmount | number:'1.2-2'}}"
+                readonly />
+            </div>
+            <!--end div for Total CGST Amount -->
+
+            <!-- start div for SGST-->
+            <div class="form-group col-xs-12 col-sm-4 col-md-2 col-lg-2" style="display:inline-block;">
+              <label class="font-style">Total SGST Amount</label>
+              <input type="text" class="form-control number-align-style custom-field-height font-style" style="letter-spacing: 0px;font-family: inherit;font-weight: 600;font-size: 12px;" value="{{totalSgstAmount | number:'1.2-2'}}"
+                readonly />
+            </div>
+            <!--end div for SGST -->
+
+            <!-- start div for IGST-->
+            <div class="form-group col-xs-12 col-sm-4 col-md-2 col-lg-2" style="display:inline-block;">
+              <label class="font-style">Total IGST Amount</label>
+              <input type="text" class="form-control number-align-style custom-field-height font-style" style="letter-spacing: 0px;font-family: inherit;font-weight: 600;font-size: 12px;" value="{{totalIgstAmount | number:'1.2-2'}}"
+                formControlName="totalIgst" readonly />
+            </div>
+            <!--end div for IGST-->
+
+            <!-- start div for Amount-->
+            <div class="form-group col-xs-12 col-sm-4 col-md-2 col-lg-2" style="display:inline-block;">
+              <label class="font-style">Total Amount</label>
+              <input type="text" class="form-control number-align-style custom-field-height font-style" style="letter-spacing: 0px;font-family: inherit;font-weight: 600;font-size: 12px;" value="{{totalAmount | number:'1.2-2'}}"
+                formControlName="totalAmount" readonly />
+            </div>
+            <!--end div for Amount-->
+
+            <!-- start div for complaintQty error -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="height: 50px;overflow: auto;">
+              <ng-container *ngIf="poType === 'ZRDM' || poType === 'ZCDM'">
+                <ng-container *ngFor=" let chckedItmErr of checkedItemArr">
+                  <!-- Qtem quantity error has been removed -->
+                  <div class="alert alert-danger" *ngIf="chckedItmErr.uiTaxtRateErrFlag && chckedItmErr.uiTaxtRateErrDesc">
+                    Item code:
+                    <b>{{ chckedItmErr.itemCode }}</b>, error: {{ chckedItmErr.uiTaxtRateErrDesc }}
+                  </div>
+                  <div class="alert alert-danger" *ngIf="chckedItmErr.uiItemNameErrFlag && chckedItmErr.uiItemNameErrDesc">
+                    Item code:
+                    <b>{{ chckedItmErr.itemCode }}</b>Line Item No:
+                    <b>{{ chckedItmErr.lineItemNo }}</b>, error: {{ chckedItmErr.uiItemNameErrDesc }}
+                  </div>
+                  <div class="alert alert-danger" *ngIf="chckedItmErr.uiConvQtyErrFlag && chckedItmErr.uiConvQtyErDesc">
+                    Item code:
+                    <b>{{ chckedItmErr.itemCode }}</b>, error: {{ chckedItmErr.uiConvQtyErDesc }}
+                  </div>
+                  <div class="alert alert-danger" *ngIf="chckedItmErr.uiConvUnitErrFlag && chckedItmErr.uiConvUnitErrDesc">
+                    Item code:
+                    <b>{{ chckedItmErr.itemCode }}</b>, error: {{ chckedItmErr.uiConvUnitErrDesc }}
+                  </div>
+                  <div class="alert alert-danger" *ngIf="chckedItmErr.uiInpErrFlag && itemValueErrFlag && chckedItmErr.uiItmBalErrDesc">
+                    Item code:
+                    <b>{{ chckedItmErr.itemCode }}</b>, error: {{ chckedItmErr.uiItmBalErrDesc }}
+                  </div>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="poType === 'ZRDS' || poType === 'ZCDS'">
+                <ng-container *ngFor=" let chckedItmErr of checkedItemArr">
+                  <!-- Item quantity error has been removed -->
+                  <div class="alert alert-danger" *ngIf="chckedItmErr.uiInpErrFlag && itemValueError">
+                    Line Item No:
+                    <b>{{ chckedItmErr.lineItemNo }}</b> Item No:
+                    <b>{{ chckedItmErr.itemNo }}</b>, error: {{ chckedItmErr.uiBalAmoutErrDesc }}
+                  </div>
+                  <div class="alert alert-danger" *ngIf="chckedItmErr.uiItemValueErrFlag && chckedItmErr.uiItemValueErrDesc">
+                    Line Item No:
+                    <b>{{ chckedItmErr.lineItemNo }}</b> Item No:
+                    <b>{{ chckedItmErr.itemNo }}</b>, error: {{ chckedItmErr.uiItemValueErrDesc }}
+                  </div>
+                  <div class="alert alert-danger" *ngIf="chckedItmErr.uiConvQtyErrFlag && chckedItmErr.uiConvQtyErDesc">
+                    Line Item No:
+                    <b>{{ chckedItmErr.lineItemNo }}</b> Item No:
+                    <b>{{ chckedItmErr.itemNo }}</b>, error: {{ chckedItmErr.uiConvQtyErDesc }}
+                  </div>
+                  <div class="alert alert-danger" *ngIf="chckedItmErr.uiConvUnitErrFlag && chckedItmErr.uiConvUnitErrDesc">
+                    Line Item No:
+                    <b>{{ chckedItmErr.lineItemNo }}</b> Item No:
+                    <b>{{ chckedItmErr.itemNo }}</b>, error: {{ chckedItmErr.uiConvUnitErrDesc }}
+                  </div>
+                  <div class="alert alert-danger" *ngIf="chckedItmErr.uiTaxtRateErrFlag && chckedItmErr.uiTaxtRateErrDesc">
+                    Item Name:
+                    <b>{{ chckedItmErr.itemName }}</b> Line Item No:
+                    <b>{{ chckedItmErr.lineItemNo }}</b> Item No:
+                    <b>{{ chckedItmErr.itemNo }}</b>, error: {{ chckedItmErr.uiTaxtRateErrDesc }}
+                  </div>
+                  <div class="alert alert-danger" *ngIf="chckedItmErr.uiItemNameErrFlag && chckedItmErr.uiItemNameErrDesc">
+                    Line Item No:
+                    <b>{{ chckedItmErr.lineItemNo }}</b> Item No:
+                    <b>{{ chckedItmErr.itemNo }}</b>, error: {{ chckedItmErr.uiItemNameErrDesc }}
+                  </div>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="poType === 'ZC' || poType === 'ZR'  || poType === 'ZI'">
+                <ng-container *ngFor=" let chckedItmErr of checkedItemArr">
+                  <div *ngIf="chckedItmErr.uiInpErrFlag && itemValueError">
+                    Line Item No:
+                    <b>{{ chckedItmErr.lineItemNo }}</b> Item No:
+                    <b>{{ chckedItmErr.itemNo }}</b>, error: {{ chckedItmErr.uiBalAmoutErrDesc }}
+                  </div>
+                  <div class="alert alert-danger" *ngIf="chckedItmErr.uiItemValueErrFlag && chckedItmErr.uiItemValueErrDesc">
+                    Line Item No:
+                    <b>{{ chckedItmErr.lineItemNo }}</b> Item No:
+                    <b>{{ chckedItmErr.itemNo }}</b>, error: {{ chckedItmErr.uiItemValueErrDesc }}
+                  </div>
+                  <div class="alert alert-danger" *ngIf="chckedItmErr.uiConvQtyErrFlag && chckedItmErr.uiConvQtyErDesc">
+                    Line Item No:
+                    <b>{{ chckedItmErr.lineItemNo }}</b> Item No:
+                    <b>{{ chckedItmErr.itemNo }}</b>, error: {{ chckedItmErr.uiConvQtyErDesc }}
+                  </div>
+                  <div class="alert alert-danger" *ngIf="chckedItmErr.uiConvUnitErrFlag && chckedItmErr.uiConvUnitErrDesc">
+                    Line Item No:
+                    <b>{{ chckedItmErr.lineItemNo }}</b> Item No:
+                    <b>{{ chckedItmErr.itemNo }}</b>, error: {{ chckedItmErr.uiConvUnitErrDesc }}
+                  </div>
+                  <div class="alert alert-danger" *ngIf="chckedItmErr.uiTaxtRateErrFlag && chckedItmErr.uiTaxtRateErrDesc">
+                    Item Name:
+                    <b>{{ chckedItmErr.itemName }}</b> Line Item No:
+                    <b>{{ chckedItmErr.lineItemNo }}</b> Item No:
+                    <b>{{ chckedItmErr.itemNo }}</b>, error: {{ chckedItmErr.uiTaxtRateErrDesc }}
+                  </div>
+                  <div class="alert alert-danger" *ngIf="chckedItmErr.uiItemNameErrFlag && chckedItmErr.uiItemNameErrDesc">
+                    Line Item No:
+                    <b>{{ chckedItmErr.lineItemNo }}</b> Item No:
+                    <b>{{ chckedItmErr.itemNo }}</b>, error: {{ chckedItmErr.uiItemNameErrDesc }}
+                  </div>
+                </ng-container>
+              </ng-container>
+            </div>
+            <!-- end div for complaint qty error -->
+
+            <!-- start table div -->
+            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom: 15px; margin-top: 5px;overflow: auto;width: auto;"
+              *ngIf="invoiceNo">
+              <!-- start item form -->
+              <form [formGroup]="itemListFormGroup">
+                <table class="table-style">
+                  <thead>
+                    <tr class="th-style">
+                      <td class="header-style hideextra">
+                        {{itemsHeader?.lineItemNo}}
+                      </td>
+                      <td class="header-style hideextra" *ngIf="((poType === 'ZRDS' || poType === 'ZCDS') || ((poType === 'ZC' || poType === 'ZR' || poType === 'ZI') && servicePOFlag))">
+                        {{itemsHeader?.headName}}
+                      </td>
+                      <td class="header-style hideextra">
+                        {{itemsHeader?.itemNo}}
+                      </td>
+                      <td class="header-style hideextra">
+                        {{itemsHeader?.itemCode}}
+                      </td>
+
+                      <td class="header-style hideextra" style="padding-top:7px;font-weight: 600;">
+                        {{itemsHeader?.itemName}}
+                        <label class="red-asterick">*</label>
+                      </td>
+                      <td class="header-style hideextra" style="font-weight: 600;">
+                        {{itemsHeader?.hsnCode}}
+                      </td>
+                      <td class="header-style hideextra">
+                        {{itemsHeader?.packageNo}}
+                      </td>
+                      <td class="header-style hideextra">
+                        {{itemsHeader?.orderQty}}
+                      </td>
+                      <td class="header-style hideextra">
+                        {{itemsHeader?.balanceQty}}
+                      </td>
+                      <td class="header-style hideextra">
+                        {{itemsHeader?.netAmount}}
+                      </td>
+
+                      <td class="header-style hideextra">
+                        {{itemsHeader?.balanceAmount}}
+                      </td>
+
+
+                      <!-- newly added 18.09.18 -->
+                      <td class="header-style hideextra" style="padding-top:7px;font-weight: 600;">
+
+                        Quantity
+                        <label class="red-asterick">*</label>
+                      </td>
+                      <!-- newly added 18.09.18 -->
+
+                      <!-- newly added 17.09.18 -->
+                      <td class="header-style hideextra" style="padding-top:7px;font-weight: 600;">
+                        Conv. Unit
+                        <label class="red-asterick">*</label>
+                      </td>
+                      <!-- newly added 17.09.18 -->
+
+                      <!-- itemQuantity header has been changed 17.09.18 -->
+                      <td class="header-style hideextra">
+                        {{itemsHeader?.itemQuantity}}
+
+                      </td>
+                      <!-- itemQuantity header has been changed 17.09.18 -->
+
+                      <td class="header-style hideextra">
+                        {{itemsHeader?.poUnit}}
+                      </td>
+
+                      <td class="header-style hideextra">
+                        {{itemsHeader?.itemPrice}}
+                      </td>
+
+                      <td class="header-style hideextra" *ngIf="(((poType === 'ZRDS' || poType === 'ZCDS') || ((poType === 'ZC' || poType === 'ZR' || poType === 'ZI') && servicePOFlag)) && (poUnit != 'JOB' || (poUnit === 'JOB' && orderQty > 1 ))) || (poType === 'ZRDM' || poType === 'ZCDM')">
+                        {{itemsHeader?.itemValue}}
+                      </td>
+                      <td class="header-style hideextra" style="padding-top:7px;font-weight: 600;" *ngIf="((poType === 'ZRDS' || poType === 'ZCDS') || ((poType === 'ZC' || poType === 'ZR' || poType === 'ZI') && servicePOFlag)) && poUnit === 'JOB' && orderQty === 1">
+                        {{itemsHeader?.itemValue}}
+                        <label class="red-asterick">*</label>
+                      </td>
+
+                      <!-- <td class="header-style hideextra" [ngClass]="((poType === 'ZRDS' || poType === 'ZCDS') && poUnit === 'JOB' && orderQty === 1)? 'number-align-header-style': ''">
+                        {{itemsHeader?.taxRate}}
+                        <label class="red-asterick" *ngIf="(poType === 'ZRDS' || poType === 'ZCDS') && poUnit === 'JOB' && orderQty === 1">*</label>
+                      </td> -->
+
+                      <td class="header-style hideextra" style="font-weight: 600;">
+                        {{itemsHeader?.taxRate}}
+                        <!-- <label class="red-asterick">*</label> -->
+                      </td>
+
+                      <td class="header-style hideextra">
+                        {{itemsHeader?.itemCgst}}
+                      </td>
+
+                      <td class="header-style hideextra">
+                        {{itemsHeader?.itemSgst}}
+                      </td>
+
+                      <td class="header-style hideextra">
+                        {{itemsHeader?.itemIgst}}
+                      </td>
+
+                      <td class="header-style-last hideextra">
+                        {{itemsHeader?.itemAmount}}
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="tr-style" *ngFor="let checkItm of checkedItemArr
+                let odd = odd; let even = even;"
+                      [ngClass]="{even: even, odd: odd }">
+                      <!-- | isplSearch: searchFormGroup.value.gridSearch : complaintDIViewDetails.header; -->
+                      <td class="td-style-first hideextra">
+                        <span aria-label="Close" class="remove-item" style="display: inline-block;" title="remove item"
+                          (click)="onCloseItem(checkItm)">
+                          <span aria-hidden="true">×</span>
+                        </span>&nbsp;&nbsp;
+                        <span style="display: inline-block;">{{checkItm.lineItemNo}}</span>
+                      </td>
+                      <td class="td-style hideextra" *ngIf="((poType === 'ZRDS' || poType === 'ZCDS') || ((poType === 'ZC' || poType === 'ZR' || poType === 'ZI') && checkItm.materialCode === '' && checkItm.packageNo === ''))">{{checkItm.headName}}</td>
+                      <td class="td-style number-align-style">{{checkItm.itemNo}}</td>
+                      <td class="td-style">{{checkItm.itemCode}}</td>
+                      <td class="td-style">
+                        <input type="text" class="form-control" style="width:300px;" formControlName="{{ checkItm.itemDescKey }}"
+                          [maxlength]="itemNameLength" value="{{checkItm.itemName.trim()}}" (click)="onItemUnitChanges(checkItm)"
+                          (keyup)="onItemUnitChanges(checkItm)" />
+                      </td>
+                      <!-- <td class="td-style">{{checkItm.hsnCode}}</td> -->
+                      <td class="td-style">
+                        <ng-container *ngIf="!checkItm.hsnCodeExist">
+                          <input type="text" class="form-control" style="width: 300px;" [maxlength]="16"
+                            formControlName="{{ checkItm.hsnCodeKey }}" (click)="onItemUnitChanges(checkItm)" (keyup)="onItemUnitChanges(checkItm)"
+                            value="{{checkItm.hsnCode}}" />
+                        </ng-container>
+
+                        <ng-container *ngIf="checkItm.hsnCodeExist">
+                          {{checkItm.hsnCode}}
+                        </ng-container>
+                      </td>
+                      <td class="td-style">{{checkItm.packageNo}}</td>
+                      <td class="td-style number-align-style">{{checkItm.orderQty | number:'1.3-3'}}</td>
+                      <td class="td-style number-align-style">{{checkItm.balanceQty | number:'1.3-3'}}</td>
+                      <td class="td-style number-align-style">{{checkItm.netAmount | number:'1.2-2'}}</td>
+                      <td class="td-style number-align-style">{{checkItm.balanceAmount | number:'1.2-2'}}</td>
+                      <!-- hardcoded quantity 18.09.18 -->
+                      <td class="td-style ">
+                        <input type="number" class="form-control number-align-style" style="width: 128px;" formControlName="{{ checkItm.convQtyKey }}"
+                          (click)="onItemUnitChanges(checkItm)" (keyup)="onItemUnitChanges(checkItm)" value="{{checkItm.uomQuantity}}" />
+                      </td>
+                      <!-- end of hardcoded quantity 18.09.18 -->
+
+
+                      <!-- start td for unit dropdown 17.09.18  -->
+                      <td class="td-style number-align-style">
+
+                        <select class="custom-select" (change)="onItemUnitChanges(checkItm)" formControlName="{{ checkItm.convUnitKey }}" [value]="checkItm.itemUom">
+                          <option *ngFor="let UOMArr of checkItm.conversion" [selected]="UOMArr.itemUnit === checkItm.conversion[0].itemUnit && checkItm.conversion.length == 1" [value]="UOMArr.itemUnit">{{
+                            UOMArr.itemUnit }}
+                          </option>
+                        </select>
+
+                      </td>
+                      <!-- end td for unit dropdown 17.09.18 -->
+
+                      <!-- ItemQuantity format has been changed 17.09.18 -->
+                      <td class="td-style number-align-style">{{checkItm.itemQuantity | number:'1.3-3'}}</td>
+                      <!-- ItemQuantity format has been changed 17.09.18 -->
+                      <td class="td-style number-align-style">{{checkItm.poUnit}}</td>
+                      <td class="td-style number-align-style">{{checkItm.netPrice | number:'1.2-2'}}</td>
+                      <td class="td-style number-align-style" *ngIf="(((poType === 'ZRDS' || poType === 'ZCDS') || ((poType === 'ZC' || poType === 'ZR' || poType === 'ZI') && checkItm.materialCode === '' && checkItm.packageNo === '')) && (poUnit != 'JOB' || (poUnit === 'JOB' && orderQty > 1 ))) || poType === 'ZRDM' || poType === 'ZCDM'">{{checkItm.itemValue
+                        | number:'1.2-2'}}</td>
+                      <td class="td-style" *ngIf="((poType === 'ZRDS' || poType === 'ZCDS') || ((poType === 'ZC' || poType === 'ZR' || poType === 'ZI') && checkItm.materialCode === '' && checkItm.packageNo === '')) && poUnit === 'JOB' && orderQty === 1">
+                        <input type="number" class="number-align-style form-control" style="width: 250px;" value="{{checkItm.itemValue}}"
+                          #itemValue (keyup)="onKeyupItemValue(itemValue.value,checkItm)" (click)="onKeyupItemValue(itemValue.value,checkItm)" />
+                      </td>
+                      <!-- <td class="td-style number-align-style" *ngIf="((poType === 'ZRDS' || poType === 'ZCDS') && (poUnit != 'JOB' || (poUnit === 'JOB' && orderQty > 1 ))) || (poType === 'ZRDM' || poType === 'ZCDM')">{{checkItm.taxRate}}
+                      </td>
+                      <td class="td-style" *ngIf="(poType === 'ZRDS' || poType === 'ZCDS') && poUnit === 'JOB' && orderQty === 1">
+                        <input type="number" class="number-align-style form-control" style="width: 68px;" value="{{checkItm.taxRate}}"
+                          #taxRate (keyup)="onKeyupToGenerateCgstIgstSgstForItemValue(taxRate.value,checkItm)" (click)="onKeyupToGenerateCgstIgstSgstForItemValue(taxRate.value,checkItm)" />
+                      </td> -->
+                      <td class="td-style number-align-style">
+                        <ng-container *ngIf="!checkItm.taxRateExist && vendorGstInNo">
+                          <input type="number" class="number-align-style form-control" style="width: 68px;" value="{{checkItm.taxRate}}"
+                            #taxRate (keyup)="onKeyupToGenerateCgstIgstSgst(taxRate.value,checkItm)" (click)="onKeyupToGenerateCgstIgstSgst(taxRate.value,checkItm)" />
+                        </ng-container>
+                        <ng-container *ngIf="(checkItm.taxRateExist || (!checkItm.taxRateExist && vendorGstInNo == ''))">
+                          {{checkItm.taxRate}}
+                        </ng-container>
+                      </td>
+
+                      <td class="td-style">
+                        {{checkItm.itemCgst | number:'1.2-2'}}
+                      </td>
+                      <td class="td-style">
+                        {{checkItm.itemSgst | number:'1.2-2'}}
+                      </td>
+                      <td class="td-style number-align-style">{{checkItm.itemIgst | number:'1.2-2'}}</td>
+                      <td class="td-style-last number-align-style">{{checkItm.itemAmount | number:'1.2-2'}}</td>
+                    </tr>
+                    <tr class="tr-style">
+                      <td class="td-style-first hideextra">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Add Item(s)
+                        <i style="font-size:16px;cursor: pointer;" title="Click here" class="fa fa-plus-circle" (click)="onAddItemOpenModal()"></i>
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style" *ngIf="((poType === 'ZRDS' || poType === 'ZCDS') || ((poType === 'ZC' || poType === 'ZR' || poType === 'ZI') && servicePOFlag))">
+
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style" *ngIf="((((poType === 'ZRDS' || poType === 'ZCDS') || ((poType === 'ZC' || poType === 'ZR' || poType === 'ZI') && servicePOFlag)) && (poUnit != 'JOB' || (poUnit === 'JOB' && orderQty > 1 ))) || (poType === 'ZRDM' || poType === 'ZCDM'))">
+
+                      </td>
+                      <td class="td-style" *ngIf="(((poType === 'ZRDS' || poType === 'ZCDS') || ((poType === 'ZC' || poType === 'ZR' || poType === 'ZI') && servicePOFlag)) && poUnit === 'JOB' && orderQty === 1)">
+
+                      </td>
+
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style-last">
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </form>
+              <!-- end of itemListForm -->
+            </div>
+            <!-- end of table div -->
+
+            <!-- start div for item desc  grid eerror 16.11.18-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <ng-container *ngFor=" let itmErr of addItemDescArr">
+                <div class="alert alert-danger" *ngIf="itmErr.uiItemDescGridDescErrFlag && itmErr.uiItemDescGridDescErrDesc">
+                  Item Description:
+                  <b>{{ itmErr.descriptionValue }}</b>, error: {{ itmErr.uiItemDescGridDescErrDesc }}
+                </div>
+
+                <div class="alert alert-danger" *ngIf="itmErr.uiItemDescGridReasonErrFlag && itmErr.uiItemDescGridReasonErrDesc">
+                  Item Reason:
+                  <b>{{ itmErr.reasonValue }}</b>, error: {{ itmErr.uiItemDescGridReasonErrDesc }}
+                </div>
+
+                <div class="alert alert-danger" *ngIf="itmErr.uiItemDescGridAmountErrFlag && itmErr.uiItemDescGridAmountErrDesc">
+                  Item Amount:
+                  <b>{{ itmErr.amountValue }}</b>, error: {{ itmErr.uiItemDescGridAmountErrDesc }}
+                </div>
+              </ng-container>
+            </div>
+            <!-- end div of item desc grid error -->
+
+            <!-- start table div -->
+            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom: 15px; margin-top: 5px;overflow: auto;width: auto;"
+              *ngIf="invoiceNo">
+              <!-- start item form -->
+              <form [formGroup]="itemDescListFormGroup">
+                <table class="table-style">
+                  <thead>
+                    <tr class="th-style">
+                      <td class="header-style hideextra" style="padding-top:7px;font-weight: 600;padding-left: 36px;">
+                        Description
+                        <label class="red-asterick">*</label>
+                      </td>
+                      <td class="header-style hideextra" style="padding-top:7px;font-weight: 600;">
+                        Reason
+                        <label class="red-asterick">*</label>
+                      </td>
+                      <td class="header-style hideextra" hidden>
+                        Quantity
+                      </td>
+                      <td class="header-style hideextra" hidden>
+                        Rate
+                      </td>
+                      <td class="header-style hideextra" style="padding-top:7px;font-weight: 600;">
+                        Amount
+                        <label class="red-asterick">*</label>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="tr-style" *ngFor="let addItm of addItemDescArr
+                            let odd = odd; let even = even;"
+                      [ngClass]="{even: even, odd: odd }">
+                      <td class="td-style-first">
+                        <span aria-label="Close" class="remove-item" style="display: inline-block;padding-top: 5px"
+                          title="remove item" (click)="onCloseItemDescElement(addItm)">
+                          <span aria-hidden="true">×</span>
+                        </span>&nbsp;
+                        <!-- start td for desc dropdown 27.11.18  -->
+                        <select class="custom-select" style="width: 128px;" (change)="onItemDescElementChanges(addItm)"
+                          value="{{ addItm.descriptionKey }}" formControlName="{{ addItm.descriptionKey }}">
+                          <option *ngFor="let otherDescEl of otherDescDropDownVal" value="{{ otherDescEl.key }}">{{otherDescEl.value
+                            }}
+                          </option>
+                        </select>
+                        <!-- end td for unit dropdown 27.11.18 -->
+                      </td>
+
+                      <td class="td-style">
+                        <input type="text" class="form-control" style="width:300px;" formControlName="{{addItm.reasonKey }}"
+                          [value]="addItm.reasonValue" [maxlength]="itemReasonLength" (keyup)="onItemDescElementChanges(addItm)" />
+                      </td>
+
+                      <td class="td-style" hidden>
+                        <input type="number" class="number-align-style form-control" style="width: 128px;"
+                          formControlName="{{ addItm.quantityKey }}" [value]="addItm.quantityValue" (change)="onItemDescElementChanges(addItm)"
+                          (keyup)="onItemDescElementChanges(addItm)" />
+                      </td>
+
+                      <td class="td-style" hidden>
+                        <input type="number" class="number-align-style form-control" style="width: 128px;"
+                          formControlName="{{ addItm.rateKey }}" [value]="addItm.rateValue" (change)="onItemDescElementChanges(addItm)"
+                          (keyup)="onItemDescElementChanges(addItm)" />
+                      </td>
+
+                      <td class="td-style">
+                        <input type="number" class="number-align-style form-control" style="width: 128px;"
+                          formControlName="{{ addItm.amountKey }}" [value]="addItm.amountValue" (change)="onItemDescElementChanges(addItm)"
+                          (keyup)="onItemDescElementChanges(addItm)" />
+                      </td>
+
+                    </tr>
+                    <tr class="tr-style">
+                      <td class="td-style-first hideextra">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Add Item(s)
+                        <i style="font-size:16px;cursor: pointer;" title="Click here" class="fa fa-plus-circle" (click)="onAddItemDescGrid()"></i>
+                      </td>
+                      <td class="td-style">
+
+                      </td>
+                      <td class="td-style" hidden>
+
+                      </td>
+                      <td class="td-style" hidden>
+
+                      </td>
+                      <td class="td-style-last">
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </form>
+              <!-- end item form -->
+            </div>
+            <!-- end of table div -->
+
+          </fieldset>
+
+          <fieldset [disabled]="invoiceFilesArr.length===0" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 card card-1"
+            style="padding-top: 10px;margin-top:0px;">
+            <!-- start div for other documents upload -->
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <label class="font-style">Other Documents Upload</label>
+            </div>
+            <div style="padding-left:0px;" class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <!-- <div style="display: inline-block;" class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <label class="font-style">Description</label>
+              <input type="text" #description class="form-control" />
+            </div> -->
+              <div style="display: inline-block;" class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <label class="font-style">Description</label>
+                <select #otherDocDesc class="custom-select col-xs-12 col-sm-6 col-md-4 col-lg-3 font-style custom-field-height" formControlName="otherDocDesc" style="height: 30px;">
+                  <option *ngFor="let desc of descDropDownVal" value="{{ desc.key }}">{{ desc.value }}
+                  </option>
+                </select>
+              </div>
+              <div style="display: inline-block;padding-left:0px;" class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                <input type="file" #otherDocs (change)="fileChange($event,'otherDocs')" class="font-style" accept=".pdf,.png,.jpg,.jpeg,.bmp" />
+              </div>
+              <div style="display: inline-block;padding-left:0px;" class="col-xs-12 col-sm-4 col-md-4 col-lg-2">
+                <button class="btn btn-success font-style custom-field-height" style="cursor:pointer;font-size: 12px;" [disabled]="!(otherDocs.value && otherDocDesc.value) || otherDocFileErrFlag"
+                  (click)="resetFileInput('others');">Upload</button>
+              </div>
+            </div>
+            <!-- error msg div -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="otherDocFileErrFlag">
+              <div class="alert alert-danger">
+                {{fileErrMsg}}
+                <!-- &nbsp;
+                <button aria-label="Close" class="close" type="button" (click)="deleteResErrorMsgOnClick()">
+                  <span aria-hidden="true">×</span>
+                </button> -->
+              </div>
+              <br />
+              <br />
+            </div>
+            <!-- end of error msg div -->
+            <!-- error msg div -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="otherFileSubmitError">
+              <div class="alert alert-danger">
+                {{otherFileSubmitErrorMsg}} &nbsp;
+                <button aria-label="Close" class="close" type="button" (click)="deleteResErrorMsgOnClick('other')">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+            </div>
+            <!-- end of error msg div -->
+            <!-- end div for other documents upload -->
+
+            <!--start div for show files-->
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="otherFilesArr.length!=0">
+              <label class="font-style">Uploaded other document
+                <ng-container *ngIf="otherFilesArr.length>1">(s)</ng-container>
+              </label>
+              <br />
+              <ng-container *ngFor="let othrFile of otherFilesArr">
+                <span style="float:left">Description: {{othrFile.fileDescVal}} &nbsp;&nbsp;</span>
+                <span style="float:left"> &nbsp;&nbsp; File: &nbsp; </span>
+                <!-- <a href="{{othrFile.fileUrl}}" style="float:left" target="_blank"> {{othrFile.fileName}} </a>&nbsp;&nbsp; -->
+
+                <a (click)="onClickForFileDownload(othrFile)" class="file-url" title="Click here to download">{{othrFile.fileName}}</a>&nbsp;&nbsp;
+
+
+                <span style="float:left" class="close" title="delete file" aria-hidden="true" (click)="deleteFiles('others',othrFile.fileName);">
+                  &nbsp;×</span>
+                <br />
+              </ng-container>
+            </div>
+            <!--end div for show files-->
+
+          </fieldset>
+          <!-- end of ng-container to show/hide the other field according to invoice file  -->
+
+          <!-- </div> -->
+
+          <!-- start div of error msg -->
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 card card-1" *ngIf="submitError">
+            <div class="alert alert-danger" style="margin-top: 15px;">
+              {{submitErrorMsg}} &nbsp;
+              <button aria-label="Close" class="close" type="button" (click)="deleteResErrorMsgOnClick('submit')">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+          </div>
+          <!-- end div of error msg -->
+
+          <!-- start div for Submit  and Cancel Button-->
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+            <!-- start div for Submit Button-->
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2 button-holder" style="display: inline-block;">
+              <button type="submit" class="btn btn-primary primary-button-style" [disabled]="!(invoiceAddEditFormGroup.valid && itemListFormGroup.valid && checkedItemArr.length>0 && itemQtyCgstIgstError === false && creditNoteDateError === false)">Submit
+              </button>
+            </div>
+            <!-- end div for Submit Button-->
+
+            <!-- start div for Cancel Button-->
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2 button-holder" style="display: inline-block;">
+              <button type="submit" class="btn default-button-style" (click)="onCancel()">
+                Cancel
+              </button>
+            </div>
+            <!-- end div for Cancel Button-->
+
+          </div>
+          <!-- start div for Submit  and Cancel Button-->
+          <!--end of button div -->
+        </div>
+        <!-- end of div for row-manage-profile-form-->
+      </form>
+      <!--end of form-->
+    </div>
+    <!--end of div for manage profile-->
+  </div>
+  <!--end of page-container-->
+
+  <!-- modal for comm set  -->
+  <!-- add item modal -->
+  <!-- <div *ngIf="divisionSetFlag" class="overlay"></div>
+  <div *ngIf="divisionSetFlag" class="com-set-modal-style">
+   
+    <div class="modal-header">
+      <div> Division </div>
+      <div (click)="cancelModal()" style="cursor: pointer;">x</div>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="division == ''" style="padding-left: 136px;">
+        <div class="text-align-style">Are you sure?</div>
+        <div class="text-align-style" style="margin-top: 20px;">
+          <button type="submit" class="btn btn-primary cursor-pointer" (click)="onConfirmDivisionModal('Y')">Yes</button>
+          <button type="submit" class="btn btn-secondary cursor-pointer" (click)="onConfirmDivisionModal('N')">No</button>
+        </div>
+      </div>
+
+      <div *ngIf="division">
+        <div class="text-align-style">Do you want to change division?</div>
+        <div class="form-group" style="padding-top: 2px;">
+          <form [formGroup]="modalFormGroup">
+            <div>
+              <label class="control control--radio display-style font-style">DI
+                <input type="radio" name="divisionM" formControlName="divisionM" value="DI" />
+                <div class="control__indicator"></div>
+              </label>
+              <label class="control control--radio display-style font-style">PI
+                <input type="radio" name="divisionM" formControlName="divisionM" value="PI" />
+                <div class="control__indicator"></div>
+              </label>
+            </div>
+          </form>
+        </div>
+       
+        <div class="text-align-style" style="margin-top: 20px;padding-left: 134px;">
+          <button type="submit" class="btn btn-primary cursor-pointer" (click)="onChangeDivisionModal('Y')">Yes</button>
+          <button type="submit" class="btn btn-secondary cursor-pointer" (click)="onChangeDivisionModal('N')">No</button>
+        </div>
+      </div>
+
+    </div>
+   
+  </div> -->
+  <!-- end of modal -->
+
+
+
+  <!--spinner-->
+  <ispl-busy-spinner *ngIf="busySpinner.busy">
+  </ispl-busy-spinner>

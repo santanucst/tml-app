@@ -1,0 +1,20 @@
+<div class="tiles-content">
+  <div class="tiles-header">
+    <span class="tiles-header-content">{{ tiles.tilesHeader }}</span>
+  </div>
+  <div class="tiles-body">
+    <span class="tiles-body-text">{{ tiles.tilesBodyText }}</span>
+    <span class="tiles-body-number" [style.color]="tiles.color" *ngIf="tiles.tilesBodyNumber == '-'; else printData">
+        <i class="fa fa-spinner fa-spin" style="font-size:30px"></i>
+    </span>
+    <ng-template #printData>
+      <span class="tiles-body-number" [style.color]="tiles.color">{{ tiles.tilesBodyNumber }}</span>
+    </ng-template>
+  </div>
+  <div class="tiles-footer">
+    <button type="submit" class="btn" [style.background-color]="tiles.color" (click)="buttonClick(tiles.buttonLink)"
+            style="color: white; letter-spacing: 1px; width: 90%; height: 45px; cursor: pointer;">
+      {{ tiles.buttonText }}
+    </button>
+  </div>
+</div>

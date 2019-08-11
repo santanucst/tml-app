@@ -1,0 +1,89 @@
+<div class="page-container">
+  <div>
+    <ol class="breadcrumb breadcrumb-custom">
+      <li class="breadcrumb-item"><a href="#/home"> <i class="fa fa-home"></i> Home </a></li>
+      <li class="breadcrumb-item active">Manage Profile</li>
+    </ol>
+  </div>
+  <div class="title-style">
+    <h1 class="title-style">Manage Profile</h1>
+  </div>
+
+  <!--start div for manage profile-->
+  <div>
+    <!--start form-->
+    <form [formGroup]="manageProfileFormGroup" autocomplete="off" (ngSubmit)="userManageProfileSubmit()">
+      <!--start div for row-manage-profile-form-->
+      <!-- userType = {{userType}} -->
+      <div class="row manage-profile-form">
+        <div class="alert alert-info col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="userType === 'V'">
+             <strong>Info!</strong> Password must be 10 to 16 characters long and must be consisted of one capital letter from A-Z , one small 
+                    letter from a-z , one number from 0-9 , one special character such as !#()-_`@~&
+        </div>        
+        <!--start div userId-->
+        <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+          <label for="userIdLabel">User Id</label>
+          <input type="text" class="form-control" formControlName="userId" value="{{selectedUserId}}" readonly>
+        </div>
+        <!--end of div userId-->
+        <!--start div for password-->
+        <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+          <label for="passwd">Password</label>
+          <input type="password" id="passwd" class="form-control" formControlName="passwd" required>
+          <!--start password validation alert-->
+          <div class="alert alert-danger" *ngIf="manageProfileFormGroup.get('passwd').hasError('required') && manageProfileFormGroup.get('passwd').touched">
+            <i class="fa fa-exclamation-circle"></i> Password is required!
+          </div>
+          <!--end of password validation alert-->
+        </div>
+        <!--end of div for password-->
+        <!--start div for securityQues-->
+        <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+          <label for="secQuesId">Security Questions</label>
+          <select class="custom-select col-xs-12 col-sm-6 col-md-6 col-lg-4" formControlName="secQuesId" required>
+            <option *ngFor="let sq of securityQues" value="{{sq.key}}">{{ sq.value }}</option>
+          </select>
+          <!--start security qstn validation alert div-->
+          <div class="alert alert-danger" *ngIf="manageProfileFormGroup.get('secQuesId').hasError('required') && manageProfileFormGroup.get('secQuesId').touched">
+            <i class="fa fa-exclamation-circle"></i> Security Question is required!
+          </div>
+          <!--end of security qstn validation alert div-->
+        </div>
+        <!--end of div for securityQues-->
+        
+        <!--start div for Answer-->
+        <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-4">
+          <label for="secAns">Answer</label>
+          <input type="password" id="secAns" class="form-control" formControlName="secAns" required>
+          <!--start answer validation alert div-->
+          <div class="alert alert-danger" *ngIf="manageProfileFormGroup.get('secAns').hasError('required') && manageProfileFormGroup.get('secAns').touched">
+            <i class="fa fa-exclamation-circle"></i> Answer is required!
+          </div>
+          <!--end of answer validation alert div-->
+        </div>
+        <!--end div Answer-->
+        <!--start button div-->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2 button-holder">
+            <button type="submit" class="btn btn-primary primary-button-style" [disabled]="!manageProfileFormGroup.valid">Submit
+            </button>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2 button-holder">
+            <button type="submit" class="btn default-button-style" (click)="onCancel()">
+              Cancel
+            </button>
+          </div>
+        </div>
+        <!--end of button div-->
+      </div>
+      <!-- end of div for row-manage-profile-form-->
+    </form>
+    <!--end of form-->
+  </div>
+  <!--end of div for manage profile-->
+</div>
+<!--end of page-container-->
+
+<!--spinner-->
+<ispl-busy-spinner *ngIf="busySpinner.busy">
+</ispl-busy-spinner>
