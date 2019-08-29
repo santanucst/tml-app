@@ -27,12 +27,12 @@
 
 
       <li class="nav-item dropdown" *ngFor="let navMenuElem of navMenuList">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
           <i class="{{menuIcons[navMenuElem.applnId]}}"></i> {{navMenuElem.applnDesc}}
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <div *ngFor="let navSubMenuElem of navMenuElem.subMenuDetails">
-            <h6 class="dropdown-header" *ngIf="navSubMenuElem.dropdownHeader; else dropdownMenu">
+            <h6 class="dropdown-item" *ngIf="navSubMenuElem.dropdownHeader; else dropdownMenu">
               {{ navSubMenuElem.subDesc }}
             </h6>
             <ng-template #dropdownMenu>
@@ -42,6 +42,7 @@
           </div>
         </div>
       </li>
+
     </ul>
     <ul class="navbar-nav">
         <li class="nav-item dropdown nav-last-element">
